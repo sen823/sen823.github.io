@@ -6,7 +6,7 @@
   <link href="http://sen823.github.io/atom.xml" rel="self"/>
   
   <link href="http://sen823.github.io/"/>
-  <updated>2020-10-05T02:59:33.802Z</updated>
+  <updated>2020-10-06T10:26:06.023Z</updated>
   <id>http://sen823.github.io/</id>
   
   <author>
@@ -15,6 +15,19 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>fiestblog.md</title>
+    <link href="http://sen823.github.io/2020/10/06/fiestblog-md/"/>
+    <id>http://sen823.github.io/2020/10/06/fiestblog-md/</id>
+    <published>2020-10-06T10:27:08.279Z</published>
+    <updated>2020-10-06T10:26:06.023Z</updated>
+    
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>

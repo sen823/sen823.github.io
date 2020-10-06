@@ -6,7 +6,7 @@
   <link href="http://sen823.github.io/atom.xml" rel="self"/>
   
   <link href="http://sen823.github.io/"/>
-  <updated>2020-10-05T02:59:33.802Z</updated>
+  <updated>2020-10-06T10:47:59.281Z</updated>
   <id>http://sen823.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>fiestblog.md</title>
+    <link href="http://sen823.github.io/2020/10/06/fiestblog-md/"/>
+    <id>http://sen823.github.io/2020/10/06/fiestblog-md/</id>
+    <published>2020-10-06T10:27:08.279Z</published>
+    <updated>2020-10-06T10:47:59.281Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是我的第一篇博客，同时也是自己用hexo和github搭建的第一个网站，内心无比激动，经过两天断断续续的查csdn与实践，终于，终于，终于到了发表文章这一步了，太开心了！！！</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;这是我的第一篇博客，同时也是自己用hexo和github搭建的第一个网站，内心无比激动，经过两天断断续续的查csdn与实践，终于，终于，终于到了发表文章这一步了，太开心了！！！&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+    <category term="初来乍到" scheme="http://sen823.github.io/tags/%E5%88%9D%E6%9D%A5%E4%B9%8D%E5%88%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>

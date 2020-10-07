@@ -2,14 +2,21 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://sen823.github.io/2020/10/06/firstblog/</loc>
+    <loc>http://senye.ink/2020/10/06/firstblog-md/</loc>
     
     <lastmod>2020-10-06</lastmod>
     
   </url>
   
   <url>
-    <loc>http://sen823.github.io/2020/10/05/hello-world/</loc>
+    <loc>http://senye.ink/2020/10/06/firstblog/</loc>
+    
+    <lastmod>2020-10-06</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://senye.ink/2020/10/05/hello-world/</loc>
     
     <lastmod>2020-10-05</lastmod>
     
@@ -17,16 +24,23 @@
   
 
   <url>
-    <loc>http://sen823.github.io/</loc>
-    <lastmod>2020-10-06</lastmod>
+    <loc>http://senye.ink/</loc>
+    <lastmod>2020-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
   
   <url>
-    <loc>http://sen823.github.io/tags/%E5%88%9D%E6%9D%A5%E4%B9%8D/</loc>
-    <lastmod>2020-10-06</lastmod>
+    <loc>http://senye.ink/tags/%E5%88%9D%E6%9D%A5%E4%B9%8D%E5%88%B0/</loc>
+    <lastmod>2020-10-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://senye.ink/tags/%E5%88%9D%E6%9D%A5%E4%B9%8D/</loc>
+    <lastmod>2020-10-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

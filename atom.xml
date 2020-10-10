@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2020-10-06T11:38:21.772Z</updated>
+  <updated>2020-10-10T09:08:10.741Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>lo</title>
+    <link href="http://senye.ink/2020/10/10/lo/"/>
+    <id>http://senye.ink/2020/10/10/lo/</id>
+    <published>2020-10-10T08:56:07.000Z</published>
+    <updated>2020-10-10T09:08:10.741Z</updated>
+    
+    <content type="html"><![CDATA[<p>用dos命令在桌面创建java并运行<img src="/.ink//dev/blog/source/_posts/lo/dos.png"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;用dos命令在桌面创建java并运行&lt;img src=&quot;/.ink//dev/blog/source/_posts/lo/dos.png&quot;&gt;&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+    <category term="dos" scheme="http://senye.ink/tags/dos/"/>
+    
+  </entry>
   
   <entry>
     <title>fiestblog.md</title>

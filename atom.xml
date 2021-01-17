@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2021-01-17T09:23:21.947Z</updated>
+  <updated>2021-01-17T10:16:37.967Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>大数据编程</title>
+    <link href="http://senye.ink/2021/01/17/dashuju/"/>
+    <id>http://senye.ink/2021/01/17/dashuju/</id>
+    <published>2021-01-17T10:03:02.624Z</published>
+    <updated>2021-01-17T10:16:37.967Z</updated>
+    
+    <content type="html"><![CDATA[<p>1.分布式文件系统是如何实现较高水平的扩展的？<br> 分布式文件系统把文件分布存储到多个计算机节点上，成千上万的计算机节点构成计算机集群。<br>2.试述HDFS中的名称节点和数据节点的具体功能。<br>名称节点：负责文件和目录的创建删除和重命名等，管理数据节点和文件块的映射关系。<br>数据节点：负责数据的存储和读取。<br>3.在分布式文件系统中，中心节点的设计至关重要，请阐述HDFS是如何减轻中心节点的负担的。<br>名称节点不参与数据的传输。<br>4.试述HDFS的冗余数据保存策略。<br>HDFS采用多副本方式对数据进行冗余存储，通常一个数据块的多个副本会被分不到不同的数据节点上。<br>5.请阐述HBase和传统关系数据库的区别。<br> 主要体现在6个方面。<br>主要方面    关系数据库    HBase<br>数据类型    关系模型 丰富的数据类型和存储方式    简单的数据模型 数据存储为未经解释的字符串<br>数据操作    丰富 插入 删除 更行 查询等 多表连接    不存在复杂的表与表之间的关系 仅插入 查询 删除 清空等<br>存储模式    基于行模式存储    基于列存储<br>数据索引    针对不同列构建复杂的多个索引，提高数据访问性能    索引是行键<br>数据维护    更行操作用最新的当前值替换记录中原来的旧值    更新操作不删除数据旧的版本<br>可伸缩性    难实现横向扩展，纵向扩展的空间有限    水平扩展灵活 轻易的通过在集群中增加或者减少硬件数量来实现性能的伸缩<br>6.HBase有哪些类型的访问接口？<br>  HBase提供了Native Java API , HBase Shell , Thrift Gateway , REST GateWay , Pig , Hive 等访问接口。<br>7.HBase中的分区是如何定位的？<br>通过构建的映射表的每个条目包含两项内容，一个是Regionde 标识符，另一个是Region服务器标识，这个条目就标识Region和Region服务器之间的对应关系，从而就可以知道某个Region被保存在哪个Region服务器中。<br>8.试述HBase的三层结构中各层次的名称和作用。<br>层次    名称    作用<br>第一层    Zookeeper文件    记录了-ROOT-表的位置信息<br>第二层    -ROOT-表    记录了.META.表的Region位置信息-ROOT-表只能有一个Region。通过-ROOT-表，就可以访问.META.表中的数据<br>第三层    .META.表    记录了用户数据表的Region位置信息，.META.表可以有多个Region，保存了HBase中所有请阐述在HBase三层结构下，客户端是如何访问到数据的。<br>9.试述HBase系统基本架构以及每个组成部分的作用。<br>（1）客户端<br>客户端包含访问HBase的接口，同时在缓存中维护着已经访问过的Region位置信息，用来加快后续数据访问过程<br>（2）Zookeeper服务器<br>Zookeeper可以帮助选举出一个Master作为集群的总管，并保证在任何时刻总有唯一一个Master在运行，这就避免了Master的“单点失效”问题<br>（3）Master<br>主服务器Master主要负责表和Region的管理工作：管理用户对表的增加、删除、修改、查询等操作；实现不同Region服务器之间的负载均衡；在Region分裂或合并后，负责重新调整Region的分布；对发生故障失效的Region服务器上的Region进行迁移<br>（4）Region服务器<br>Region服务器是HBase中最核心的模块，负责维护分配给自己的Region，并响应用户的读写请求</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;1.分布式文件系统是如何实现较高水平的扩展的？&lt;br&gt; 分布式文件系统把文件分布存储到多个计算机节点上，成千上万的计算机节点构成计算机集群。&lt;br&gt;2.试述HDFS中的名称节点和数据节点的具体功能。&lt;br&gt;名称节点：负责文件和目录的创建删除和重命名等，管理数据节点和文件块的</summary>
+      
+    
+    
+    
+    
+    <category term="大数据编程 方面的知识要点" scheme="http://senye.ink/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A8%8B-%E6%96%B9%E9%9D%A2%E7%9A%84%E7%9F%A5%E8%AF%86%E8%A6%81%E7%82%B9/"/>
+    
+  </entry>
   
   <entry>
     <title>Spark</title>

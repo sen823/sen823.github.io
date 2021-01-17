@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2020-10-10T09:08:10.741Z</updated>
+  <updated>2020-10-10T09:28:01.081Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -17,18 +17,18 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>lo</title>
+    <title>dos</title>
     <link href="http://senye.ink/2020/10/10/lo/"/>
     <id>http://senye.ink/2020/10/10/lo/</id>
     <published>2020-10-10T08:56:07.000Z</published>
-    <updated>2020-10-10T09:08:10.741Z</updated>
+    <updated>2020-10-10T09:28:01.081Z</updated>
     
-    <content type="html"><![CDATA[<p>用dos命令在桌面创建java并运行<img src="/.ink//dev/blog/source/_posts/lo/dos.png"></p>]]></content>
+    <content type="html"><![CDATA[<p>用dos命令在桌面创建java并运行[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-J69ZVhZA-1590658049693)(D:\dev\blog\source_posts\lo\dos.png)]</p>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;用dos命令在桌面创建java并运行&lt;img src=&quot;/.ink//dev/blog/source/_posts/lo/dos.png&quot;&gt;&lt;/p&gt;
+    <summary type="html">&lt;p&gt;用dos命令在桌面创建java并运行[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-J69ZVhZA-1590658049693)(D:\dev\blog\source_posts\lo\dos.png)]&lt;/p&gt;
 </summary>
       
     
@@ -40,11 +40,11 @@
   </entry>
   
   <entry>
-    <title>fiestblog.md</title>
+    <title>firstblog.md</title>
     <link href="http://senye.ink/2020/10/06/firstblog-md/"/>
     <id>http://senye.ink/2020/10/06/firstblog-md/</id>
     <published>2020-10-06T11:38:21.769Z</published>
-    <updated>2020-10-06T11:38:21.772Z</updated>
+    <updated>2020-10-10T09:21:42.477Z</updated>
     
     <content type="html"><![CDATA[<p>这是我的第一篇博客，同时也是自己用hexo和github搭建的第一个网站，内心无比激动，经过两天断断续续的查csdn与实践，终于，终于，终于到了发表文章这一步了，太开心了！！！</p>]]></content>
     

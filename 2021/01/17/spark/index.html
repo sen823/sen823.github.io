@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Spark · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">for me</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Spark</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-01-17</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="关于spark的一些基础知识"> 关于spark的一些基础知识</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>1.4v：数据量大、数据类型繁多、处理速度快、价值密度低<br>2.技术层面：数据采集与预处理、数据存储和管理、数据处理和分析、数据可视化、数据安全和隐私保护<br>3.大数据计算模式：批处理mapreduce，流计算storm，图计算pregel，查询分析计算<br>4.Spark 特点 运行速度快，易使用，通用性，运行模式多样<br>5.Yarn负责集群资源调度管理的组件 提高集群利用率，共享底层存储<br>6.Hive基于hadoop的数据仓库工具，可以对hadoop文件中的数据集进行数据整理、特殊查询、分析处理<br>7.hadoop 批处理 spark基于内存（发展早，社区活跃） flink约等于spark  beam<br>8../sbin/start-dfs.sh<br>9.Val 变量名称：数据类型=初始值 不可变<br>10.readInt 导入 scala.io.StdIn<br>11.print（s””）不支持格式化，f支持 等效format<br>12.for(i&lt;- 1 to 5 if i%2=0)<br>13.Array数组是一种可变，可索引，元素具有相同数据类型的数据集合，从0<br>14.Tuple对多个不同类型对象的一种简单封装，从1开始的索引<br>15.容器：列表list从0索引，映射map键值，集合set没有<br>16.序列sequence 元素按特定顺序访问容器<br>17.列表list共享相同类型的不可变的对象序列 head列表第一个元素值，tail除1的新列表  range特殊带索引的不可变数字等差序列，从给定起点到终点所有值<br>18.set不重复元素的容器，包括可变集和不可变<br>19.map，键是唯一的，值不一定<br>20.类用关键字class声明<br>def 方法名（参数列表）：结果类型={方法体}<br>21.类成员默认共有，private本类型和嵌套 protected本类和继承<br>getter  value  setter  value_=<br>22.主构整个类的定义主体就是类的构造器，类方法以外的语句都在构造过程中执行 辅构this定义，返回类型为unit，第一个表达式this（参）已定义的辅或主<br>23.单例对象 伴生和孤立什么是伴生对象，为什么设计apply<br>一个单例对象和它同名类一起出现 伴生对象的方法只能通过伴生对象调用<br>Apply保持对象和函数之间使用的一致性，接受构造参数变成对象<br>Unapply接受一个对象从中提取值<br>24.abstract定义抽象类 类层级结构 any anyval anyRef null nothing<br>25.Option抽象类 子类some有值 none没<br>26.特质 实现代码复用，实现接口  trait定义特质 extends with混入类<br>27.定义函数作为某个类或对象的成员，定义为def。。<br>28.头等公民，类型明确函数接收参数、类型、返回结果，值函数的具体实现<br>29.高阶函数 函数包含其他函数作为其参数或返回结果为一个函数<br>30.Foreach 遍历 map映射filter过滤 reduce规约<br>拆分操作partition、groupedby、grouped、sliding<br>31.Spark的特点：运行速度快，容易使用，通用性，运行模式多样<br>32.大数据包括的类型：批量数据处理，交互式查询，流数据处理<br>33、Spark生态系统包含spark core；spark  sql；spark streaming；mlib；graphx</p>
+<p>关于RDD<br>RDD:是弹性分布式数据集,是分布式内存的一个抽象概念，提供了一种高度受限的共享内存模型;<br>DAG:是有向无环图的简称，反映RDD之间的依赖关系<br>阶段:是作业的基本调度单位，一个作业会分为组任务，每组任务被称为“阶段”，或者也被称为“任务集”。<br>分区：RDD内部并行计算的一个计算单元，RDD的数据集在逻辑上被划分为多个分片，每一个分片称为分区。<br>​窄依赖：一个父RDD的分区对应于一个子RDD的分区，或多个父RDD的分区对应于一个子RDD的分区，无shuffle，平行<br>​宽依赖：一个父RDD的一个分区对应一个子RDD的多个分区，有shuffle， 任务</p>
+<p>​行动”( Action )和“转换” ( Transformation )两种类型、前者用于执行计算并指定输出的形式，后者指定RDD之间的相互依赖关系。两类操作的主要区别是转换操作(比如map、filter、 groupBy、join 等)接受RDD并返回RDD而行动操作(比如count、collect等)接受RDD但是返回非RDD (即输出一个值或结果)。</p>
+<p>关于编程<br>1、统计文本文件中单词出现的频率<br>方法一：<br>“Hello world’’<br>‘’hello china’’<br>scala&gt;Val list1=List(“Hello world”,”Hello china”)<br>scala&gt;Val list2=list1.flatmap(s=&gt;s.split(“ ”))<br>H,e,l,l,o , ,w,o,r,l,d  错<br>Hello，world，hello，china对<br>分析：Hello world—-〉s—–〉对s按照空格进行拆分—-〉得到结果<br>List2：List(“Hello”,”world”,”Hello”,”china”)<br>scala&gt;Val list3=list2.map(x=&gt;(x,1))<br>List3:List(&lt;Hello ,1&gt;,&lt;Hello ,1&gt;,&lt;world,1&gt;,&lt;china,1&gt;),reduce麻烦<br>scala&gt;Val list4=list3.groupBy(x=&gt;x.<em>1)<br>Map(Hello-&gt;List(&lt;Hello,1&gt;,&lt;Hello,1&gt;) ,world-&gt;List(&lt;world,1&gt;) ,china-&gt;List(&lt;china,1) )<br>scala&gt;Val list5=list4.map(x=&gt;(x._1,(x._2).size))<br>得到&lt;hello,2&gt;，&lt;world,1&gt;，&lt;china,1&gt;<br>1,2,3,4,5<br>List(1,2,3,4,5).groupBy(x=&gt;x%3)<br>Map(2-&gt;List(2,5), 1-&gt;List(1,4), 0-&gt;List(3))<br>方法二：<br>import java.io.File<br>import scala.io.Source<br>import collection.mutable.Map<br>object WordCount{<br>     def main(args:Array[String]){<br>        val dirfile=new File(“testfiles”)<br>        val files=dirfile.listFile<br>        val results=Map.empty[String,Int]<br>         for(file&lt;-files){<br>           val data=Source.fromFile(file)<br>           val strs=data.getLines.flatMap{s=&gt;s.split(“  “)}<br>           strs foreach{ word=&gt;<br>                   if (results.contains(word))<br>                   results(word)+=1 else results(word)=1<br>                       }   }<br>           results foreach{case (k,v)=&gt;println(s”$k,$v”)}<br>           }   }<br>统计hello world的行数<br>import  org.apache.spark.sparkContext<br>import  org.apache.spark.sparkContext.</em><br>import  org.apache.spark.sparkConf<br>object HelloWorld{<br>   def main (args:Array[String]){<br>   val conf=new SparkConf().setAppName(“Hello World”).setMaster(“local[2]”)<br>val sc=new SparkContext(conf)<br>val fileRDD=sc.textFile(“hdfs://localhost:9000/examplefile”)<br>val filterRDD=fileRDD.filter(_.contains(“Hello World”))<br>filterRDD.cache()<br>filterRDD.count()    }    }</p>
+<p>2、（1） 该系总共有多少学生；<br>val lines = sc.textFile(“file:///usr/local/spark/sparksqldata/Data01.txt”)<br>val par = lines.map(row=&gt;row.split(“,”)(0))<br>val distinct_par = par.distinct() //去重操作<br>distinct_par.count //取得总数<br>（2） 该系共开设来多少门课程；<br>val lines = sc.textFile(“file:///usr/local/spark/sparksqldata/Data01.txt”)<br>val par = lines.map(row=&gt;row.split(“,”)(1))<br>val distinct_par = par.distinct()<br>distinct_par.count<br>（3） Tom 同学的总成绩平均分是多少；<br>val lines = sc.textFile(“file:///usr/local/spark/sparksqldata/Data01.txt”)<br>val pare = lines.filter(row=&gt;row.split(“,”)(0)==”Tom”)<br>pare.foreach(println)<br>Tom,DataBase,26<br>Tom,Algorithm,12<br>Tom,OperatingSystem,16<br>Tom,Python,40<br>Tom,Software,60<br>pare.map(row=&gt;(row.split(“,”)(0),row.split(“,”)(2).toInt)).mapValues(x=&gt;(x,1)).reduceByKey((x,y ) =&gt; (x._1+y._1,x._2 + y._2)).mapValues(x =&gt; (x._1 / x._2)).collect()<br>（4） 求每名同学的选修的课程门数；<br>val lines = sc.textFile(“file:///usr/local/spark/sparksqldata/Data01.txt”)<br>val pare = lines.map(row=&gt;(row.split(“,”)(0),row.split(“,”)(1)))<br>pare.mapValues(x =&gt; (x,1)).reduceByKey((x,y) =&gt; (“ “,x._2 + y._2)).mapValues(x =&gt;<br>x._2).foreach(println)<br>（5） 该系 DataBase 课程共有多少人选修；<br>val lines = sc.textFile(“file:///usr/local/spark/sparksqldata/Data01.txt”)<br>val pare = lines.filter(row=&gt;row.split(“,”)(1)==”DataBase”)<br>pare.count<br>（6） 各门课程的平均分是多少；<br>val lines = sc.textFile(“file:///usr/local/spark/sparksqldata/Data01.txt”)<br>val pare = lines.map(row=&gt;(row.split(“,”)(1),row.split(“,”)(2).toInt))<br>pare.mapValues(x=&gt;(x,1)).reduceByKey((x,y) =&gt; (x._1+y._1,x._2 + y._2)).mapValues(x =&gt; (x._1/ x._2)).collect()<br>（7）使用累加器计算共有多少人选了 DataBase 这门课。<br>val lines = sc.textFile(“file:///usr/local/spark/sparksqldata/Data01.txt”)<br>val pare = lines.filter(row=&gt;row.split(“,”)(1)==”DataBase”).map(row=&gt;(row.split(“,”)(1),1))<br>val accum = sc.longAccumulator(“My Accumulator”)<br>pare.values.foreach(x =&gt; accum.add(x))<br>accum.value </p>
+<p>对于两个输入文件 A 和 B，编写 Spark 独立应用程序，对两个文件进行合并，并剔除其<br>中重复的内容，得到一个新文件 C。<br>（１）假设当前目录为/usr/local/spark/mycode/remdup，在当前目录下新建一个目录 mkdir -p<br>src/main/scala，然后在目录/usr/local/spark/mycode/remdup/src/main/scala 下新建一个<br>remdup.scala，复制下面代码；<br>object RemDup {<br>def main(args: Array[String]) {<br>val conf = new SparkConf().setAppName(“RemDup”)<br>val sc = new SparkContext(conf)<br>val dataFile = “file:///home/charles/data”<br>val data = sc.textFile(dataFile,2)<br>val res = data.filter(_.trim().length&gt;0).map(line=&gt;(line.trim,””)).partitionBy(new<br>HashPartitioner(1)).groupByKey().sortByKey().keys<br>res.saveAsTextFile(“result”) } }<br>（２）在目录/usr/local/spark/mycode/remdup 目录下新建 simple.sbt，复制下面代码：<br>name := “Simple Project”<br>version := “1.0”<br>scalaVersion := “2.11.8”<br>libraryDependencies += “org.apache.spark” %% “spark-core” % “2.1.0”<br>（３）在目录/usr/local/spark/mycode/remdup 下执行下面命令打包程序<br>$ sudo /usr/local/sbt/sbt package<br>（４）最后在目录/usr/local/spark/mycode/remdup 下执行下面命令提交程序<br>$ /usr/local/spark2.0.0/bin/spark-submit –class “RemDup”<br>/usr/local/spark2.0.0/mycode/remdup/target/scala-2.11/simple-project_2.11-1.0.jar<br>（５）在目录/usr/local/spark/mycode/remdup/result 下即可得到结果文件。</p>
+<p>每个输入文件表示班级学生某个学科的成绩，每行内容由两个字段组成，第一个是学生<br>名字，第二个是学生的成绩；编写 Spark 独立应用程序求出所有学生的平均成绩，并输出到一个新文件中。<br>（１）假设当前目录为/usr/local/spark/mycode/avgscore，在当前目录下新建一个目录 mkdir -p<br>src/main/scala，然后在目录/usr/local/spark/mycode/avgscore/src/main/scala 下新建一个<br>avgscore.scala<br>object AvgScore {<br>def main(args: Array[String]) {<br>val conf = new SparkConf().setAppName(“AvgScore”)<br>val sc = new SparkContext(conf)<br>val dataFile = “file:///home/charles/data”<br>val data = sc.textFile(dataFile,3)<br>val res = data.filter(_.trim().length&gt;0).map(line=&gt;(line.split(“ “)(0).trim(),line.split(“<br>“)(1).trim().toInt)).partitionBy(new HashPartitioner(1)).groupByKey().map(x =&gt; {<br>var n = 0<br>var sum = 0.0<br>for(i &lt;- x._2){<br>sum = sum + i<br>n = n +1 }<br>val avg = sum/n<br>val format = f”$avg%1.2f”.toDouble<br>(x._1,format) })<br>res.saveAsTextFile(“result”) } }<br>（２）在目录/usr/local/spark/mycode/avgscore 目录下新建 simple.sbt，复制下面代码：<br>name := “Simple Project”<br>version := “1.0”<br>scalaVersion := “2.11.8”<br>libraryDependencies += “org.apache.spark” %% “spark-core” % “2.1.0”<br>（３）在目录/usr/local/spark/mycode/avgscore 下执行下面命令打包程序<br>$ sudo /usr/local/sbt/sbt package<br>（４）最后在目录/usr/local/spark/mycode/avgscore 下执行下面命令提交程序<br>$ /usr/local/spark2.0.0/bin/spark-submit –class “AvgScore”<br>/usr/local/spark2.0.0/mycode/avgscore/target/scala-2.11/simple-project_2.11-1.0.jar<br>（５）在目录/usr/local/spark/mycode/avgscore/result 下即可得到结果文件。 </p>
+<p>Scala词频统计<br>val list1=List(“Hello world”,”Hello china”)<br>Val list2=list1.flatmap(s=&gt;s.split(“ ”))<br>Val list3=list2.map(s=&gt;(s,1))<br>Val list4=list3.groupBy(x=&gt;x._1)<br>Val list5=list4.map(x=&gt;(x._1,(x._2).size))</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/01/17/spark/">http://senye.ink/2021/01/17/spark/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/01/17/maven/" title="Maven"><span>NextPost ></span><br><span class="nextTitle">Maven</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

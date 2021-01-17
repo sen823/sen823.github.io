@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Maven · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">for me</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">Maven</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-01-17</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="关于maven的一些基础知识"> 关于maven的一些基础知识</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>1、解决依赖管理冲突的原则 路径优先原则 ，相同路径，第一声明者优先原则    。</p>
+<p>2.Maven是Apache下的一个开源项目，它是一个项目管理工具，它用于对java项目进行   项目构建   、    依赖管理  及  项目信息管理     。</p>
+<p>3.一个项目的生理周期构建过程为：清理、编译、测试、报告、打包、部署。 </p>
+<p>4.Maven包含了一个项目对象模型，一组标准集合，一个项目生命周期，一个依赖管理系统，和用来运行定义在生命周期阶段中插件目标的逻辑。</p>
+<p>5.maven管理项目生命周期过程都是基于插件完成的</p>
+<p>6.设置系统环境变量：M2_HOME path环境变量：%M2_HOME%\bin</p>
+<p>7.项目对象模型: 通过pom.xml定义项目的坐标、项目依赖、项目信息、插件目标</p>
+<p>8.项目依赖struts2.3.24，通过在pom.xml中定义依赖即可将struts2的jar包自动加入工程。</p>
+<p>关于简答</p>
+<p>1.简述什么是Maven坐标，由哪些标签组成，分别代表什么，为什么要使用坐标。</p>
+<p>（1）Maven坐标是可以标识平面内的一个点</p>
+<p> 由groupid 定义maven项目的隶属目录</p>
+<p>artifactID 定义实际项目中的一个模块</p>
+<p>version 定义该项目的版本号</p>
+<p>packaging  定义该项目的打包方式</p>
+<p>（坐标决定了Maven的唯一性）</p>
+<p>（2）为什么要使用坐标</p>
+<p>Maven世界中有大量的构建，我们需要用一个唯一标识一个构建的统一规范</p>
+<p>有了统一规范，就可以把查找工作交给机器来做</p>
+<p>2.简述本地仓库与远程仓库的不同。</p>
+<p>本地仓库：一个用户只有一个本地仓库，需要从中央仓库下载，资源存放在本地仓库</p>
+<p>远程仓库：1中央仓库，maven的默认远程仓库</p>
+<p>​       2 .私服，一个特殊的远程仓库，用于在局域网内的仓库</p>
+<p>​                3.镜像：用来替代中央仓库，速度比一般仓库快</p>
+<p>​    </p>
+<p>3.简述Maven的作用和意义。</p>
+<p><strong>–</strong> <strong><em>\</em>拥有约定，知道你的代码在哪里，放到哪里去**</strong></p>
+<p><strong>–</strong> <strong><em>\</em>拥有一个生命周期，例如执行**</strong> <strong><em>\</em>mvn install**</strong> <strong><em>\</em>就可以自动执行编译，测试，打包等构建过程**</strong></p>
+<p><strong>–</strong> <strong><em>\</em>只需要定义一个*****</strong>*pom.xml,*<strong>**</strong>*然后把源码放到默认的目录，**<strong><strong><em>\</em>Maven***</strong></strong>*帮你处理其他事情****</p>
+<p><strong>–</strong> <strong><em>\</em>拥有依赖管理，仓库管理**</strong></p>
+<p>4.Maven项目约定由哪几个目录结构组成，分别存放哪些文件。</p>
+<p>Src/main/java 存放项目的.java文件</p>
+<p>Src/main/resource 存放项目的资源文件</p>
+<p>Src/test/java 存放所有测试.java文件</p>
+<p>Src/test/resource 存放项目的测试资源文件</p>
+<p>Target 项目输出位置</p>
+<p>Pom.xml</p>
+<p>5.三大生命周期</p>
+<p>clean:清理项目</p>
+<p>default：构建项目</p>
+<p>site：生成项目站点的</p>
+<p>6.Maven安装目录分析：</p>
+<p>Bin目录： Maven的运行脚本</p>
+<p>boot目录:Maven自己的类加载器</p>
+<p>conf 目录：含有setting.xml配置文件</p>
+<p>lib ：Maven运行时所需的java类库、</p>
+<p>7.系统报错说没有找到依赖，报错的原因是找不到依赖的Hello项目，HelloFriend中需要调用Hello类，并且在pom.xml中有依赖，但是在库中没有添加进来，所以会报错。故需要将Hello项目的jar包放入仓库中，执行mvn </p>
+<p>Install命令，执行完该命令后再查看仓库，多了cn的文件夹。</p>
+<p>8.scope 用来控制依赖和编译，测试，运行的classpath的关系 </p>
+<p>依赖关系：</p>
+<p>1.compile： 默认编译依赖范围。对于编译，测试，运行三种classpath都有效</p>
+<p>2.test：测试依赖范围。只对于测试classpath有效</p>
+<p>3.provided：已提供依赖范围。对于编译，测试的classpath都有效，但对于运行无效。因为由容器已经提供，例如servlet-api（Tomcat）</p>
+<p>4.runtime:运行时提供。例如:jdbc驱动</p>
+<p>9.Maven项目步骤:</p>
+<p>1 建立Hello项目同时建立Maven约定的项目目录结构</p>
+<p>2 在项目Hello根目录建立pom.xml</p>
+<p>3 在src/main/java/cn/rjxy/maven目录下新建文件Hello.java</p>
+<p>4 在/src/test/java/cn/rjxy/maven目录下新建测文件HelloTest.java</p>
+<p>5 打开cmd命令行，进入Hello项目根目录执行 mvn compile命令，查看根目录变化</p>
+<p> cmd中继续录入mvn clean命令，然后再次查看根目录变化</p>
+<p> cmd中录入mvn clean compile命令，查看根目录变化</p>
+<p> cmd中录入mvn  clean test命令，查看根目录变化</p>
+<p> cmd中录入mvn clean package命令，查看根本录变化</p>
+<p>6新建第二个项目模块hellofriend目录及约定的目录结构</p>
+<p>7在项目hellofriend根目录建立pom.xml</p>
+<p>8在src/main/java/cn/rjxy/maven目录下新建文件hello friend.java</p>
+<p>9在/src/test/java/cn/rjxy/maven目录下新建测试文件hellofriendtest.java</p>
+<p>10 在hellofriend目录下执行命令 mvn package</p>
+<p>11 需要重新构建hello第一个项目并将jar包放入仓库中，在命令行根目录下执行 mvn clean install</p>
+<p>12 重新在hello friend 目录下执行命令mvn package </p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/01/17/maven/">http://senye.ink/2021/01/17/maven/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2020/10/06/firstblog-md/" title="初来乍到"><span>NextPost ></span><br><span class="nextTitle">初来乍到</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

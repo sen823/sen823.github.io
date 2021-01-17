@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2021-01-17T08:39:38.558Z</updated>
+  <updated>2021-01-17T09:17:21.314Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -17,11 +17,35 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>firstblog.md</title>
+    <title>Maven</title>
+    <link href="http://senye.ink/2021/01/17/maven/"/>
+    <id>http://senye.ink/2021/01/17/maven/</id>
+    <published>2021-01-17T09:10:59.641Z</published>
+    <updated>2021-01-17T09:17:21.314Z</updated>
+    
+    <content type="html"><![CDATA[<p>1、解决依赖管理冲突的原则 路径优先原则 ，相同路径，第一声明者优先原则    。</p><p>2.Maven是Apache下的一个开源项目，它是一个项目管理工具，它用于对java项目进行   项目构建   、    依赖管理  及  项目信息管理     。</p><p>3.一个项目的生理周期构建过程为：清理、编译、测试、报告、打包、部署。 </p><p>4.Maven包含了一个项目对象模型，一组标准集合，一个项目生命周期，一个依赖管理系统，和用来运行定义在生命周期阶段中插件目标的逻辑。</p><p>5.maven管理项目生命周期过程都是基于插件完成的</p><p>6.设置系统环境变量：M2_HOME path环境变量：%M2_HOME%\bin</p><p>7.项目对象模型: 通过pom.xml定义项目的坐标、项目依赖、项目信息、插件目标</p><p>8.项目依赖struts2.3.24，通过在pom.xml中定义依赖即可将struts2的jar包自动加入工程。</p><p>关于简答</p><p>1.简述什么是Maven坐标，由哪些标签组成，分别代表什么，为什么要使用坐标。</p><p>（1）Maven坐标是可以标识平面内的一个点</p><p> 由groupid 定义maven项目的隶属目录</p><p>artifactID 定义实际项目中的一个模块</p><p>version 定义该项目的版本号</p><p>packaging  定义该项目的打包方式</p><p>（坐标决定了Maven的唯一性）</p><p>（2）为什么要使用坐标</p><p>Maven世界中有大量的构建，我们需要用一个唯一标识一个构建的统一规范</p><p>有了统一规范，就可以把查找工作交给机器来做</p><p>2.简述本地仓库与远程仓库的不同。</p><p>本地仓库：一个用户只有一个本地仓库，需要从中央仓库下载，资源存放在本地仓库</p><p>远程仓库：1中央仓库，maven的默认远程仓库</p><p>​       2 .私服，一个特殊的远程仓库，用于在局域网内的仓库</p><p>​                3.镜像：用来替代中央仓库，速度比一般仓库快</p><p>​    </p><p>3.简述Maven的作用和意义。</p><p><strong>–</strong> <strong><em>\</em>拥有约定，知道你的代码在哪里，放到哪里去**</strong></p><p><strong>–</strong> <strong><em>\</em>拥有一个生命周期，例如执行**</strong> <strong><em>\</em>mvn install**</strong> <strong><em>\</em>就可以自动执行编译，测试，打包等构建过程**</strong></p><p><strong>–</strong> <strong><em>\</em>只需要定义一个*****</strong>*pom.xml,*<strong>**</strong>*然后把源码放到默认的目录，**<strong><strong><em>\</em>Maven***</strong></strong>*帮你处理其他事情****</p><p><strong>–</strong> <strong><em>\</em>拥有依赖管理，仓库管理**</strong></p><p>4.Maven项目约定由哪几个目录结构组成，分别存放哪些文件。</p><p>Src/main/java 存放项目的.java文件</p><p>Src/main/resource 存放项目的资源文件</p><p>Src/test/java 存放所有测试.java文件</p><p>Src/test/resource 存放项目的测试资源文件</p><p>Target 项目输出位置</p><p>Pom.xml</p><p>5.三大生命周期</p><p>clean:清理项目</p><p>default：构建项目</p><p>site：生成项目站点的</p><p>6.Maven安装目录分析：</p><p>Bin目录： Maven的运行脚本</p><p>boot目录:Maven自己的类加载器</p><p>conf 目录：含有setting.xml配置文件</p><p>lib ：Maven运行时所需的java类库、</p><p>7.系统报错说没有找到依赖，报错的原因是找不到依赖的Hello项目，HelloFriend中需要调用Hello类，并且在pom.xml中有依赖，但是在库中没有添加进来，所以会报错。故需要将Hello项目的jar包放入仓库中，执行mvn </p><p>Install命令，执行完该命令后再查看仓库，多了cn的文件夹。</p><p>8.scope 用来控制依赖和编译，测试，运行的classpath的关系 </p><p>依赖关系：</p><p>1.compile： 默认编译依赖范围。对于编译，测试，运行三种classpath都有效</p><p>2.test：测试依赖范围。只对于测试classpath有效</p><p>3.provided：已提供依赖范围。对于编译，测试的classpath都有效，但对于运行无效。因为由容器已经提供，例如servlet-api（Tomcat）</p><p>4.runtime:运行时提供。例如:jdbc驱动</p><p>9.Maven项目步骤:</p><p>1 建立Hello项目同时建立Maven约定的项目目录结构</p><p>2 在项目Hello根目录建立pom.xml</p><p>3 在src/main/java/cn/rjxy/maven目录下新建文件Hello.java</p><p>4 在/src/test/java/cn/rjxy/maven目录下新建测文件HelloTest.java</p><p>5 打开cmd命令行，进入Hello项目根目录执行 mvn compile命令，查看根目录变化</p><p> cmd中继续录入mvn clean命令，然后再次查看根目录变化</p><p> cmd中录入mvn clean compile命令，查看根目录变化</p><p> cmd中录入mvn  clean test命令，查看根目录变化</p><p> cmd中录入mvn clean package命令，查看根本录变化</p><p>6新建第二个项目模块hellofriend目录及约定的目录结构</p><p>7在项目hellofriend根目录建立pom.xml</p><p>8在src/main/java/cn/rjxy/maven目录下新建文件hello friend.java</p><p>9在/src/test/java/cn/rjxy/maven目录下新建测试文件hellofriendtest.java</p><p>10 在hellofriend目录下执行命令 mvn package</p><p>11 需要重新构建hello第一个项目并将jar包放入仓库中，在命令行根目录下执行 mvn clean install</p><p>12 重新在hello friend 目录下执行命令mvn package </p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;1、解决依赖管理冲突的原则 路径优先原则 ，相同路径，第一声明者优先原则    。&lt;/p&gt;
+&lt;p&gt;2.Maven是Apache下的一个开源项目，它是一个项目管理工具，它用于对java项目进行   项目构建   、    依赖管理  及  项目信息管理     。&lt;/p&gt;
+&lt;</summary>
+      
+    
+    
+    
+    
+    <category term="关于maven的一些基础知识" scheme="http://senye.ink/tags/%E5%85%B3%E4%BA%8Emaven%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>初来乍到</title>
     <link href="http://senye.ink/2020/10/06/firstblog-md/"/>
     <id>http://senye.ink/2020/10/06/firstblog-md/</id>
     <published>2020-10-06T11:38:21.769Z</published>
-    <updated>2021-01-17T08:39:38.558Z</updated>
+    <updated>2021-01-17T09:10:00.694Z</updated>
     
     <content type="html"><![CDATA[<p>这是我的第一篇博客，同时也是自己用hexo和github搭建的第一个网站，内心无比激动，经过两天断断续续的查csdn与实践，终于，终于，终于到了发表文章这一步了！</p>]]></content>
     
@@ -35,7 +59,7 @@
     
     
     
-    <category term="初来乍到" scheme="http://senye.ink/tags/%E5%88%9D%E6%9D%A5%E4%B9%8D%E5%88%B0/"/>
+    <category term="myfirst" scheme="http://senye.ink/tags/myfirst/"/>
     
   </entry>
   

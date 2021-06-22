@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2021-01-17T10:16:37.967Z</updated>
+  <updated>2021-06-22T13:40:26.712Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -15,6 +15,53 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>day02</title>
+    <link href="http://senye.ink/2021/06/22/day02/"/>
+    <id>http://senye.ink/2021/06/22/day02/</id>
+    <published>2021-06-22T13:39:32.763Z</published>
+    <updated>2021-06-22T13:40:26.712Z</updated>
+    
+    <content type="html"><![CDATA[<p>53个关键字 全部是小写<br>   const goto 原来不是叫保留字 现在是了在新的jdk版本中<br>标识符 —-在java中可以自定义的名称<br> 组成范围 </p><ol><li>各国常见文字<ol start="2"><li>数字 0-9 </li></ol></li><li>特殊的符号  _和 $（慎用—内部类会使用）<br>命名规则<br>1.不能出现关键字<br>2.不能以数字开头<br>在组成范围内的内容且遵守命名规则的是符合ja0 va语法的标识符（合法）<br>驼峰命令法（在标识符合法的基础上）<br>1.类名/接口名——XxxYyyZzz<br>2.方法名/变量名——-xxxYyyZzz<br>3.包名—— 包是用来区分同名类的 （单级文件夹—-xxx cn。   多级文件夹——xxx.yyy.zzz。  tedu.cn.day01<br>4.见名知意<br>注释 /*   */ 多行注释  单行注释 //<br>文档注释 /** */ 可以通过javadoc命令生成解释说明的文档<br>常量<br>程序运行过程中不发生改变的值<br>分类<br> 字面量常值      整数常量 1000 1839<pre><code>                小数常量 1.1 3.3                 字符串常量 “12” “guii”                字符常量“u”                布尔常量 true false                 空常量 null </code></pre>整数表示方式<br>二进制 由0和1表示 以0b开头的数据就是二进制数据 0b 1000<br>八进制  由0-7表示 以0开头的数据就是八进制数据<br>十进制<br>十六进制<br>其他进制转换成十进制<br>总结规律：项乘以基数为底的权次幂之和<br>十进制转换为其他进制<br>总结规律<br>除基取余 直到商为0 余数翻转<br>有符号的数<br>  计算机上所有的数据都在底层都是以二进制数据的补码形式来表示的<br>数据类型 ：限制数据变化范围<br>变量名：区分其他变量<br>初始化：给变量赋值</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;53个关键字 全部是小写&lt;br&gt;   const goto 原来不是叫保留字 现在是了在新的jdk版本中&lt;br&gt;标识符 —-在java中可以自定义的名称&lt;br&gt; 组成范围 &lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;各国常见文字&lt;ol start=&quot;2&quot;&gt;
+&lt;li&gt;数字 0-9 &lt;/li&gt;</summary>
+      
+    
+    
+    
+    
+    <category term="关于实训" scheme="http://senye.ink/tags/%E5%85%B3%E4%BA%8E%E5%AE%9E%E8%AE%AD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>day01</title>
+    <link href="http://senye.ink/2021/06/22/day01/"/>
+    <id>http://senye.ink/2021/06/22/day01/</id>
+    <published>2021-06-22T13:36:00.273Z</published>
+    <updated>2021-06-22T13:39:16.236Z</updated>
+    
+    <content type="html"><![CDATA[<p>jre (java 运行时环境)—-提供java程序的运行环境<br> jre=jvm+运行类库<br>jdk (java 开发工具包） —- 提供java程序的运行环境和开发环境<br> jdk=jre+kit (开发工具包）<br>java 三大结构：j2se 提供桌面服务及小程序开发<br>                       j2ee 提供企业集中式开发<br>                       j2me 提供嵌入式开发<br>jdk的安装目录指定位置不能有中文和空格<br> 人机交互方式： 图形式交互 命令式交互<br>命令提示符的查找方式 ：win+R –cmd<br>                                     在地址栏中输入cmd （比较灵活）<br>命令提示符常用指令（DOS常用指令—低级编程语言）<br>                   ：cd    —–跳转到指定目录(文件夹）<br>                       cd..  —–返回上一层<br>                       cd/   —-当前盘符的根目录<br>环境变量 ：可以指定的操作的值<br>Path=jdk安装位置、bin;<br>D:\Program Files\Java\jdk1.8.0_45\bin<br>JAVA_HOME 自定义的环境变量jdk安装位置</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;jre (java 运行时环境)—-提供java程序的运行环境&lt;br&gt; jre=jvm+运行类库&lt;br&gt;jdk (java 开发工具包） —- 提供java程序的运行环境和开发环境&lt;br&gt; jdk=jre+kit (开发工具包）&lt;br&gt;java 三大结构：j2se 提供桌面</summary>
+      
+    
+    
+    
+    
+    <category term="关于实训" scheme="http://senye.ink/tags/%E5%85%B3%E4%BA%8E%E5%AE%9E%E8%AE%AD/"/>
+    
+  </entry>
   
   <entry>
     <title>大数据编程</title>
@@ -81,6 +128,29 @@
     
     
     <category term="关于maven的一些基础知识" scheme="http://senye.ink/tags/%E5%85%B3%E4%BA%8Emaven%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>dos</title>
+    <link href="http://senye.ink/2020/10/10/lo/"/>
+    <id>http://senye.ink/2020/10/10/lo/</id>
+    <published>2020-10-10T08:56:07.000Z</published>
+    <updated>2020-10-10T09:28:01.081Z</updated>
+    
+    <content type="html"><![CDATA[<p>用dos命令在桌面创建java并运行[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-J69ZVhZA-1590658049693)(D:\dev\blog\source_posts\lo\dos.png)]</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;用dos命令在桌面创建java并运行[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-J69ZVhZA-1590658049693)(D:\dev\blog\source_posts\lo\dos.png)]&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+    <category term="dos" scheme="http://senye.ink/tags/dos/"/>
     
   </entry>
   

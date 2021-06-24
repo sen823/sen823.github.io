@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://senye.ink/2021/06/24/day04%20/</loc>
+    
+    <lastmod>2021-06-24</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://senye.ink/2021/06/23/day03/</loc>
     
     <lastmod>2021-06-23</lastmod>
@@ -67,7 +74,7 @@
 
   <url>
     <loc>http://senye.ink/</loc>
-    <lastmod>2021-06-23</lastmod>
+    <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -75,42 +82,42 @@
   
   <url>
     <loc>http://senye.ink/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%BC%96%E7%A8%8B-%E6%96%B9%E9%9D%A2%E7%9A%84%E7%9F%A5%E8%AF%86%E8%A6%81%E7%82%B9/</loc>
-    <lastmod>2021-06-23</lastmod>
+    <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://senye.ink/tags/%E5%85%B3%E4%BA%8E%E5%AE%9E%E8%AE%AD/</loc>
-    <lastmod>2021-06-23</lastmod>
+    <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://senye.ink/tags/myfirst/</loc>
-    <lastmod>2021-06-23</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>http://senye.ink/tags/%E5%85%B3%E4%BA%8Emaven%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2021-06-23</lastmod>
+    <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://senye.ink/tags/dos/</loc>
-    <lastmod>2021-06-23</lastmod>
+    <lastmod>2021-06-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://senye.ink/tags/%E5%85%B3%E4%BA%8Emaven%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>http://senye.ink/tags/%E5%85%B3%E4%BA%8Espark%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
-    <lastmod>2021-06-23</lastmod>
+    <lastmod>2021-06-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>

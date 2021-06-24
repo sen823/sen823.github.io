@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2021-06-23T13:55:48.997Z</updated>
+  <updated>2021-06-24T14:06:50.906Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>day04</title>
+    <link href="http://senye.ink/2021/06/24/day04%20/"/>
+    <id>http://senye.ink/2021/06/24/day04%20/</id>
+    <published>2021-06-24T14:02:24.129Z</published>
+    <updated>2021-06-24T14:06:50.906Z</updated>
+    
+    <content type="html"><![CDATA[<p>键盘录入<br>//导包</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line">class JavaDemo&#123;</span><br><span class="line">   public static void main (String [] args) &#123;</span><br><span class="line">    Scanner sc&#x3D;new Scanner(System.in);</span><br><span class="line">    int num &#x3D;sc.nextInt();&#x2F;&#x2F;获取整数</span><br><span class="line">    String s&#x3D;sc.nextLine();&#x2F;&#x2F;获取一行转成字符串</span><br><span class="line">    System.out.println(num);</span><br></pre></td></tr></table></figure><pre><code>   &#125;</code></pre><p>}<br>1.导包<br>  import java.util.Scanner;<br>2.获取Scanner<br>   Scanner sc=new Scanner(System.in);<br>3.获取数据<br>   sc.nextInt();获取数据<br>   sc.nextline（）；获取一行<br>流程控制语句<br> 顺序结构<br>    从上往下总左往右依次编译执行（绝大部分代码）<br> 选择结构<br>   if 语句<br>       if语句格式一<br>       if语句格式二<br>       if语句格式三<br>   switch 语句<br>   1.表达式支持byte short int char 从jdk1.5开始支持枚举，从jdk1.7开始支持String类型</p><ol start="2"><li>case的值都是常量 不能重复<br> 3.支持省略break 省略break会出现case穿透效果<br> 4.支持省略default<br> 5.switch语句结束的标志 {1.遇见break 2.执行到代码的最后一行}<br>循环结构、<br>流程执行  ：先去计算出表达式的值 拿着这个计算出的值和所有的case值进行比较如果有相等的就执行对应的case语句体，执行完语句体执行break<br>switch 语句执行结束 如果计算出的值和所有的case的值都不相等执行default对应的语句体结着执行break，switch语句结束。   </li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;键盘录入&lt;br&gt;//导包&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/</summary>
+      
+    
+    
+    
+    
+    <category term="关于实训" scheme="http://senye.ink/tags/%E5%85%B3%E4%BA%8E%E5%AE%9E%E8%AE%AD/"/>
+    
+  </entry>
   
   <entry>
     <title>day03</title>

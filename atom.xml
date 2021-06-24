@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2021-06-24T14:15:04.523Z</updated>
+  <updated>2021-06-24T14:25:24.797Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -21,18 +21,15 @@
     <link href="http://senye.ink/2021/06/24/day04/"/>
     <id>http://senye.ink/2021/06/24/day04/</id>
     <published>2021-06-24T14:02:24.129Z</published>
-    <updated>2021-06-24T14:15:04.523Z</updated>
+    <updated>2021-06-24T14:25:24.797Z</updated>
     
-    <content type="html"><![CDATA[<pre><code>      +   -   *  键盘录入        //导包        import java.util.Scanner;        class JavaDemo&#123;               public static void main (String [] args) &#123;                  Scanner sc=new Scanner(System.in);                    int num =sc.nextInt();//获取整数                            String s=sc.nextLine();//获取一行转成字符串                            System.out.println(num);                &#125;    &#125;        1.导包                   import java.util.Scanner;                2.获取Scanner                   Scanner sc=new Scanner(System.in);                3.获取数据                   sc.nextInt();获取数据                   sc.nextline（）；获取一行                流程控制语句                 顺序结构                    从上往下总左往右依次编译执行（绝大部分代码）                 选择结构                   if 语句                       if语句格式一                       if语句格式二                       if语句格式三                   switch 语句                   1.表达式支持byte short int char 从jdk1.5开始支持枚举，从jdk1.7开始支持String类型                   2.case的值都是常量 不能重复                   3.支持省略break 省略break会出现case穿透效果                   4.支持省略default                   5.switch语句结束的标志 &#123;1.遇见break 2.执行到代码的最后一行&#125;                 循环结构、                  流程执行  ：先去计算出表达式的值 拿着这个计算出的值和所有的case值进行比较如果有相等的就执行对应的case语句体，执行完语句体执行break                 switch 语句执行结束 如果计算出的值和所有的case的值都不相等执行default对应的语句体结着执行break，switch语句结束。   </code></pre>]]></content>
+    <content type="html"><![CDATA[<p>键盘录入<br>//导包</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Scanner;</span><br><span class="line">class JavaDemo&#123;</span><br><span class="line">public static void main (String [] args) &#123;</span><br><span class="line">      Scanner sc&#x3D;new Scanner(System.in);</span><br><span class="line">    int num &#x3D;sc.nextInt();&#x2F;&#x2F;获取整数</span><br><span class="line">        String s&#x3D;sc.nextLine();&#x2F;&#x2F;获取一行转成字符串</span><br><span class="line">        System.out.println(num);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​                    </span><br><span class="line"></span><br><span class="line">​            &#125;</span><br><span class="line">​    &#125;</span><br></pre></td></tr></table></figure><hr><p>​        1.导包<br>​                   import java.util.Scanner;<br>​                2.获取Scanner<br>​                   Scanner sc=new Scanner(System.in);<br>​                3.获取数据<br>​                   sc.nextInt();获取数据<br>​                   sc.nextline（）；获取一行<br>​                流程控制语句<br>​                 顺序结构<br>​                    从上往下总左往右依次编译执行（绝大部分代码）<br>​                 选择结构<br>​                   if 语句<br>​                       if语句格式一<br>​                       if语句格式二<br>​                       if语句格式三<br>​                   switch 语句<br>​                   1.表达式支持byte short int char 从jdk1.5开始支持枚举，从jdk1.7开始支持String类型<br>​                   2.case的值都是常量 不能重复<br>​                   3.支持省略break 省略break会出现case穿透效果<br>​                   4.支持省略default<br>​                   5.switch语句结束的标志 {1.遇见break 2.执行到代码的最后一行}<br>​                 循环结构、<br>​                  流程执行  ：先去计算出表达式的值 拿着这个计算出的值和所有的case值进行比较如果有相等的就执行对应的case语句体，执行完语句体执行break<br>​                 switch 语句执行结束 如果计算出的值和所有的case的值都不相等执行default对应的语句体结着执行break，switch语句结束。   </p>]]></content>
     
     
       
       
-    <summary type="html">&lt;pre&gt;&lt;code&gt;      +   -   *  键盘录入
-        //导包
-        import java.util.Scanner;
-        class JavaDemo&amp;#123;
-               public static vo</summary>
+    <summary type="html">&lt;p&gt;键盘录入&lt;br&gt;//导包&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/</summary>
       
     
     

@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2021-06-25T14:02:26.246Z</updated>
+  <updated>2021-06-28T14:51:26.753Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>day06</title>
+    <link href="http://senye.ink/2021/06/28/day06/"/>
+    <id>http://senye.ink/2021/06/28/day06/</id>
+    <published>2021-06-28T14:20:27.044Z</published>
+    <updated>2021-06-28T14:51:26.753Z</updated>
+    
+    <content type="html"><![CDATA[<h6 id="编译时期检测所有的代码"><a href="#编译时期检测所有的代码" class="headerlink" title="编译时期检测所有的代码"></a>编译时期检测所有的代码</h6><p>运行时期进行逻辑运算</p><p>百鸡问题</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ANS</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> x=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> y=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> z=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>( x=<span class="number">0</span>;x&lt;<span class="number">33</span>;x++)&#123;</span><br><span class="line">       <span class="keyword">for</span> ( y=<span class="number">0</span>;y&lt;<span class="number">50</span>;y++)&#123;</span><br><span class="line">       z=<span class="number">100</span>-x-y;</span><br><span class="line">       <span class="keyword">if</span>(z%<span class="number">3</span>==<span class="number">0</span>)&#123;</span><br><span class="line">       <span class="keyword">if</span> ((<span class="number">3</span>*x+<span class="number">2</span>*y+z/<span class="number">3</span>)==<span class="number">100</span>) &#123;</span><br><span class="line">       System.out.println(<span class="string">&quot;公鸡数&quot;</span>+x+<span class="string">&quot;,母鸡数&quot;</span>+y+<span class="string">&quot;，小鸡数&quot;</span>+z);</span><br><span class="line">       <span class="comment">// expression</span></span><br><span class="line">       &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       &#125;</span><br><span class="line">        &#125;</span><br><span class="line">   </span><br><span class="line">   &#125;&#125;</span><br></pre></td></tr></table></figure><p>//二分(折半)查找—二分算法在查找的应用<br>//定义三个下标用变量来表示<br>int min=0;<br>int max=arr.length-1;//长度值-1<br>int mid=(min+max)/2;<br>//循环–while<br>while(num!=arr[mid])//中间下标对应的元素值不相等才进循环操作<br>//如果查找数大于中间下标对应的元素值<br> if(max&gt;=min)<br>min=mid+1; }<br>//如果查找数小于中间下标对应的元素值</p><p> if(num&lt;arr[mid])(<br>//把最大下标往左挪动</p><p>max=mid-1;}</p><p> //查找数不存在情况<br> if(min&gt;max)l<br> System.outprintIn(“查无此数”);<br> break; }<br>int mid=(min+max)/2;<br>//重新计算中间下标<br> mid=(min+max)/2; }<br>//if(max&gt;=min)<br> System.out.printIn(mid); </p><p>第六天 加油</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h6 id=&quot;编译时期检测所有的代码&quot;&gt;&lt;a href=&quot;#编译时期检测所有的代码&quot; class=&quot;headerlink&quot; title=&quot;编译时期检测所有的代码&quot;&gt;&lt;/a&gt;编译时期检测所有的代码&lt;/h6&gt;&lt;p&gt;运行时期进行逻辑运算&lt;/p&gt;
+&lt;p&gt;百鸡问题&lt;/p&gt;
+&lt;figure</summary>
+      
+    
+    
+    
+    
+    <category term="关于实训" scheme="http://senye.ink/tags/%E5%85%B3%E4%BA%8E%E5%AE%9E%E8%AE%AD/"/>
+    
+  </entry>
   
   <entry>
     <title>day05</title>

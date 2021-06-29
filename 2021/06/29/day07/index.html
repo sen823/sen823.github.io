@@ -1,0 +1,169 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day07 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day07</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-06-29</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="数组 配置idea 方法"> 数组 配置idea 方法</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>数组 配置idea 方法</p>
+<p>扩容—-扩大、扩小数组容器的容量（长度） —–数组定义完成之后长度无法改变</p>
+<p>栈：存储变量（暂时），栈中存储的数据使用完毕时立刻销毁 堆：存储对象，存储的对象如果不再使用会在某个是时刻通过系统进行回收</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ArrKuoDemo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//给定原数组</span></span><br><span class="line">		<span class="keyword">int</span>[] arr1=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;;</span><br><span class="line">		<span class="comment">//数组的扩容</span></span><br><span class="line">		<span class="comment">//使用不方便复制内容比较灵活</span></span><br><span class="line">		<span class="comment">//数组的复制</span></span><br><span class="line">		<span class="comment">//新数组</span></span><br><span class="line">		<span class="comment">//int[] arr2=new int[arr1.length*2];//确定新长度</span></span><br><span class="line">		<span class="comment">//数组的复制(原数组，拷贝的起始下标，目标数组，粘贴的起始下标，复制的)</span></span><br><span class="line">		<span class="comment">//System.arraycopy(arr1,arr2,0,arr1.length);</span></span><br><span class="line">		<span class="comment">//数组地址值的赋值</span></span><br><span class="line">		<span class="comment">//arr1=arr2;</span></span><br><span class="line">	    arr1=Arrays.copyOf(arr1,arr1.length/<span class="number">2</span>);<span class="comment">//底层由上述三步实现；使用方便 复制元素内容不灵活</span></span><br><span class="line">		System.out.println(Arrays.toString(arr1));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>arr1=Arrays.copyOf( )起始位置</p>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="comment">//1.定义格式</span></span><br><span class="line">		<span class="keyword">int</span> [][] arr=<span class="keyword">new</span> <span class="keyword">int</span> [<span class="number">3</span>][<span class="number">2</span>];</span><br><span class="line">		<span class="comment">//数组名--二维数组的地址值[[I@659e0bfd</span></span><br><span class="line">		System.out.println(arr);</span><br><span class="line">		<span class="comment">//第一个一维数组的地址值[I@2a139a55</span></span><br><span class="line">		System.out.println(arr[<span class="number">0</span>]);</span><br><span class="line">		<span class="comment">//第一个一维数组的第一个元素</span></span><br><span class="line">		System.out.println(arr[<span class="number">0</span>][<span class="number">0</span>]);</span><br><span class="line">		<span class="comment">//第一个一维数组的第三个元素，没有第三个元素</span></span><br><span class="line">		<span class="comment">//编译没错 .ArrayIndexOutOfBoundsException: --数组下标越界异常</span></span><br><span class="line">		System.out.println(arr[<span class="number">0</span>][<span class="number">2</span>]);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.数据类型【】【】数组名=new 数据类型【二维数组长度】【】；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[][] arr=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>][];<span class="comment">//代表声明了3个一维数组</span></span><br><span class="line"><span class="comment">//给定初始值</span></span><br><span class="line">arr[<span class="number">0</span>]=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">3</span>];<span class="comment">//可以</span></span><br><span class="line">arr[<span class="number">1</span>]=<span class="keyword">new</span> <span class="keyword">int</span>[][<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>];<span class="comment">//可以</span></span><br><span class="line">arr[<span class="number">2</span>]=&#123;<span class="number">4</span>,<span class="number">5</span>,<span class="number">3</span>&#125;;<span class="comment">//不可以</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>[][] arr=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>][];</span><br><span class="line">		<span class="comment">//第一个一维数组的地址值--null （不指向任何的内存区）</span></span><br><span class="line">		System.out.println(arr[<span class="number">0</span>]);</span><br><span class="line">		<span class="comment">//第一个一维数组的第一个元素 NullPointerException</span></span><br><span class="line">        <span class="comment">//at Array2Demo.空指针异常 地址值为null 不指向任何内存区域获取不到值，如果强制获取值就会报错</span></span><br><span class="line">		System.out.println(arr[<span class="number">0</span>][<span class="number">0</span>]);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> [][] arr=&#123;&#123;<span class="number">1</span>,<span class="number">2</span>&#125;,</span><br><span class="line">              &#123;<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>&#125;&#125;;<span class="comment">//指定值确定长度</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置IDEA"><a href="#配置IDEA" class="headerlink" title="配置IDEA"></a>配置IDEA</h2><p>打开bin-找到idea64 双击应用程序打开IDEA</p>
+<p>​     IDEA   Project 工程  Module 模块灵活        src            包名   类名</p>
+<p> 包名：com.baidu.dept(部门).group(组).id(工号)</p>
+<p>​              IDEA边写边保存（自动编译）                                     </p>
+<p>sout  :System.out.println()</p>
+<p>m:main  方法</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>概念：把<strong>重复</strong>且<strong>有效</strong>的代码抽取的形式</p>
+<p>书写格式：修饰符   方法返回值类型   方法名（参数类型1 参数值1 参数类型2 参数值2）{</p>
+<p>方法体；</p>
+<p>return 返回值；</p>
+<p>}</p>
+<p>修饰符： public static </p>
+<p>方法返回值类型：根据方法的返回值数据类型提供对应的数据类型来接收方法返回值；方法可能没有返回值指定void来表示没有返回值</p>
+<p>方法名：标识符</p>
+<p>参数列表：由参数类型、参数个数、参数顺序共同决定</p>
+<p>方法体：重复且有效的代码</p>
+<p>return:把方法的返回值进行返回\</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java规定方法不能嵌套（一个方法中不能定义另一个方法）</span><br></pre></td></tr></table></figure>
+
+<p>注意 ：1.方法一定要调用才执行！</p>
+<p>简单的代码调用 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodDemo1</span> </span>&#123;</span><br><span class="line">    <span class="comment">//java规定方法不能嵌套（一个方法中不能定义另一个方法）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//打印一个6行7列的星星</span></span><br><span class="line">       <span class="comment">/* for (int i=1;i&lt;=6;i++)&#123;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            for (int j=1;j&lt;=7;j++)&#123;</span></span><br><span class="line"><span class="comment">                System.out.print(&quot;*&quot;);</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            System.out.println();</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        //打印一个7行8列的星星</span></span><br><span class="line"><span class="comment">        for (int i=1;i&lt;=7;i++)&#123;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            for (int j=1;j&lt;=8;j++)&#123;</span></span><br><span class="line"><span class="comment">                System.out.print(&quot;*&quot;);</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            System.out.println();</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">        //打印一个8行9列的星星</span></span><br><span class="line"><span class="comment">        for (int i=1;i&lt;=8;i++)&#123;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            for (int j=1;j&lt;=9;j++)&#123;</span></span><br><span class="line"><span class="comment">                System.out.print(&quot;*&quot;);</span></span><br><span class="line"><span class="comment">            &#125;</span></span><br><span class="line"><span class="comment">            System.out.println();</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">            &#125;*/</span></span><br><span class="line">        <span class="comment">//调用方法--方法名（参数值）</span></span><br><span class="line">        printXing(<span class="number">6</span>,<span class="number">7</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//定义方法打印星星的方法</span></span><br><span class="line">    <span class="comment">//方法返回值类型--直接打印效果不需要返回值</span></span><br><span class="line">    <span class="comment">//参数列表--int m int n (控制行和列）</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printXing</span><span class="params">(<span class="keyword">int</span> m,<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=m;i++)&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=n;j++)&#123;</span><br><span class="line">                System.out.print(<span class="string">&quot;*&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>冒泡排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">MaoPao</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">         <span class="keyword">int</span>[] arr=&#123;<span class="number">6</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">2</span>&#125;;</span><br><span class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">             <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=arr.length-<span class="number">1</span>;j++)&#123;</span><br><span class="line">                 <span class="keyword">if</span>(arr[j-<span class="number">1</span>]&gt;arr[j])&#123;</span><br><span class="line">                     <span class="keyword">int</span> temp=arr[j-<span class="number">1</span>];</span><br><span class="line">                     arr[j-<span class="number">1</span>]=arr[j];</span><br><span class="line">                     arr[j]=temp;</span><br><span class="line">                 &#125;</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         System.out.println(Arrays.toString(arr));</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>选择排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Choose</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span>[] arr = &#123;<span class="number">6</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">7</span>&#125;;</span><br><span class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">          <span class="keyword">for</span> (<span class="keyword">int</span> j=i;j&lt;arr.length;j++)&#123;</span><br><span class="line">              <span class="keyword">if</span>(arr[i-<span class="number">1</span>]&gt;arr[j])&#123;</span><br><span class="line">                  <span class="keyword">int</span> temp=arr[i-<span class="number">1</span>];</span><br><span class="line">                  arr[i-<span class="number">1</span>]=arr[j];</span><br><span class="line">                  arr[j]=temp;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line">       <span class="comment">// Arrays.sort(arr); 这是java自带的排序方式</span></span><br><span class="line">        System.out.println(Arrays.toString(arr));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/06/29/day07/">http://senye.ink/2021/06/29/day07/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/06/28/day06/" title="day06"><span>NextPost ></span><br><span class="nextTitle">day06</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEIDEA"><span class="toc-number">1.</span> <span class="toc-text">配置IDEA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">方法</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

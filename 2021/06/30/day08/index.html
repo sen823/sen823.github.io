@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day08 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day08</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-06-30</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="方法、重载、面向对象简介"> 方法、重载、面向对象简介</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h4 id="1-概念"><a href="#1-概念" class="headerlink" title="1.概念"></a>1.概念</h4><p>把重复且有效的代码抽取的形式、</p>
+<h4 id="2-格式"><a href="#2-格式" class="headerlink" title="2.格式"></a>2.格式</h4><p>修饰符 方法返回值类型 方法名(参数类型1 参数名1，参数类型2 参数名2,…){</p>
+<p>方法体;</p>
+<p> return 返回值;</p>
+<p>}</p>
+<p>修饰符：public static </p>
+<p>方法返回值类型:根据方法返回值的类型指定对应的数据类型来接受 </p>
+<p>方法名:标识符 </p>
+<p>参数列表:由参数类型、参数个数、参数顺序 </p>
+<p>方法体:重复且有效代码</p>
+<p> return:把返回值进行返回</p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>1.方法被调用才能执行 </p>
+<p>2.抽取方法时需要两个明确—方法返回值类型、参数列表 </p>
+<p>3.return两个功能:把方法的返回值进行返回、 结束方法 </p>
+<p>4.如果方法有参数，需要考虑参数值的取值范围，针对取值范围的内的数据进行操作</p>
+<p>有参数有返回值 </p>
+<p>有参数无返回值 </p>
+<p>无参数有返回值 </p>
+<p>无参数无返回值</p>
+<h4 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h4><p>在一个类中，多个方法名一致但是参数列表不一致 </p>
+<p>如果重载方法有精确匹配的方法做精确匹配</p>
+<p> 如果没有精确匹配的方法做相对精确匹配 </p>
+<p>如果出现多个相对精确匹配的方法不能匹配到对应的方法会报错</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.method;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodDemo2</span> </span>&#123;</span><br><span class="line"> <span class="comment">//由方法名和参数列表共同决定的方法才是唯一确定的方法</span></span><br><span class="line"> <span class="comment">//方法是由方法签名来区分（方法签名由方法名和参数列表共同决</span></span><br><span class="line"> <span class="comment">//方法是由方法签名来区分（方法签名由方法名和参数列表共同决定）</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//重载方法的调用</span></span><br><span class="line"> <span class="comment">//如果重载方法有精确匹配的方法做精确匹配</span></span><br><span class="line"> <span class="comment">//如果没有精确匹配的方法做相对精确匹配</span></span><br><span class="line"> <span class="comment">//如果出现多个相对精确匹配的方法不能匹配到对应的方法会报错</span></span><br><span class="line"> <span class="comment">// System.out.println(sum(1,2));</span></span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//求和</span></span><br><span class="line"> <span class="comment">//sum(int,int)</span></span><br><span class="line"> <span class="comment">//Ctrl+Shift+?---选中代码进行注释（再按一边取消注释）</span></span><br><span class="line"> <span class="comment">/*public static int sum(int x,int y)&#123;</span></span><br><span class="line"><span class="comment"> //快捷键---Ctrl+d(快速复制一行)</span></span><br><span class="line"><span class="comment"> //Alt+Shift+方向键（上下）---移动一行代码</span></span><br><span class="line"><span class="comment"> System.out.println(&quot;int int&quot;);</span></span><br><span class="line"><span class="comment"> return x+y;</span></span><br><span class="line"><span class="comment"> &#125;*/</span></span><br><span class="line"> <span class="comment">//sum(int,double)</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">double</span> y)</span></span>&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;int double&quot;</span>);</span><br><span class="line"> <span class="keyword">return</span> x+y;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//sum(double,int)</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">sum</span><span class="params">(<span class="keyword">double</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;double double&quot;</span>);</span><br><span class="line"> <span class="keyword">return</span> x+y;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-传值"><a href="#5-传值" class="headerlink" title="5.传值"></a>5.传值</h4><p>如果实参的数据类型是基本数据类型那么传入的是值的拷贝 </p>
+<p>如果拿着拷贝的地址值找到原堆内存就会影响原值</p>
+<p> 如果拿着拷贝的地址值没有找到原堆内存就不会会影响原值 </p>
+<p>如果实参的数据类型是引用数据类型那么传入的是地址值的拷贝</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.method;</span><br><span class="line"><span class="comment">//Ctrl+Alt+insert---快速建包建类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodDemo3</span> </span>&#123;</span><br><span class="line"> <span class="comment">//java中所有的方法在栈中执行（不存储在栈中）</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line"> <span class="keyword">int</span>[] arr=&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;;</span><br><span class="line"> <span class="comment">//Alt+Enter---提示</span></span><br><span class="line"> <span class="comment">//实参---实际传入的参数值</span></span><br><span class="line"> <span class="comment">//如果实参的数据类型是基本数据类型，那么传递过去的就是拷贝值</span></span><br><span class="line"> <span class="comment">//m(i);</span></span><br><span class="line"> <span class="comment">//数组元素是基本数据类型，传递的仍然是值得拷贝</span></span><br><span class="line"> <span class="comment">//m(arr[0]);</span></span><br><span class="line"> <span class="comment">//如果实参数据类型是引用数据类型，那么传递的就是地址值的拷贝</span></span><br><span class="line"> <span class="comment">//n(arr);</span></span><br><span class="line"> <span class="comment">//如果实参数据类型是引用数据类型，那么传递的就是地址值的拷贝</span></span><br><span class="line"> mn(arr);</span><br><span class="line"> 分区 java语法基本组成 的第 <span class="number">2</span> 页 </span><br><span class="line"> mn(arr);</span><br><span class="line"> <span class="comment">//</span></span><br><span class="line"> System.out.println(arr[<span class="number">0</span>]);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//形参---来接收实参</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m</span><span class="params">(<span class="keyword">int</span> i)</span> </span>&#123;<span class="comment">//接收到拷贝值做任何操作都不会影响原值</span></span><br><span class="line"> i++;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">n</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;<span class="comment">//通过接收的拷贝的地址值可以找到对应堆里的内容就可以改变内容从而影响原值</span></span><br><span class="line"> arr[<span class="number">0</span>]=<span class="number">10</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mn</span><span class="params">(<span class="keyword">int</span>[] arr)</span></span>&#123;<span class="comment">//通过接收的拷贝值如果没有找到对应的堆内存做任何操作都不会影响原值</span></span><br><span class="line"> arr=<span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">5</span>];</span><br><span class="line"> arr[<span class="number">0</span>]=<span class="number">10</span>;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="6-递归"><a href="#6-递归" class="headerlink" title="6.递归"></a>6.递归</h4><p>执行方法过程中再次调用本方法</p>
+<p>StackOverflowError—栈溢出错误 递归次数过多</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.method;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodDemo4</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> System.out.println(sum(<span class="number">1000000</span>));</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//递归求和方法</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> m)</span></span>&#123;</span><br><span class="line"> <span class="comment">//递归结束条件</span></span><br><span class="line"> <span class="keyword">if</span>(m==<span class="number">1</span>)&#123;</span><br><span class="line"> <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> m+sum(m-<span class="number">1</span>);<span class="comment">//10+sum(9)</span></span><br><span class="line"> <span class="comment">// 9+sum(8)</span></span><br><span class="line"> <span class="comment">// 8+sum(7)</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="面向对象简介"><a href="#面向对象简介" class="headerlink" title="面向对象简介"></a>面向对象简介</h2><p>1.概念 本质是一种编程范式（一种套路，一种思考方式）</p>
+<p> 面向过程：关注的是每行代码实现细节 </p>
+<p>面向对象：先把代码实现细节整合到对象身上，只要找到对象就能拥有对象身上的功能（万物皆对象） 面向对象基于面向过程，如果场景比较复杂推荐使用面向对象，如果场景比较简单优先推荐面向过程</p>
+<p>2.类和对象的关系</p>
+<p>对一类对象进行抽取，把共同的特征信息抽取成了属性，把共同的行为抽取成了方法，把这些对象抽取成了对应 的类。类是对对象的概括，对象是对类的具体实现。</p>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.object;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//创建Person类的对象</span></span><br><span class="line"> Person p=<span class="keyword">new</span> Person();<span class="comment">//对象p</span></span><br><span class="line"> <span class="comment">//.代表“的”的意思</span></span><br><span class="line"><span class="comment">//操作的是对象p的属性</span></span><br><span class="line"> p.name=<span class="string">&quot;丽丽&quot;</span>;</span><br><span class="line"> p.age=<span class="number">12</span>;</span><br><span class="line"> p.gender=<span class="string">&#x27;女&#x27;</span>;</span><br><span class="line"> <span class="comment">//调用方法</span></span><br><span class="line"> p.eat();</span><br><span class="line"> <span class="comment">//对象地址值---cn.tedu.object.Person@28d93b30</span></span><br><span class="line"> System.out.println(p);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义Person类---代表人</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line"> <span class="comment">//特征信息---属性（变量）</span></span><br><span class="line"> String name;</span><br><span class="line"> <span class="keyword">char</span> gender;</span><br><span class="line"> <span class="keyword">int</span> age;</span><br><span class="line"> <span class="comment">//行为---方法</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line"> System.out.println(name+<span class="string">&quot;在吃饭&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span></span>&#123;</span><br><span class="line"> System.out.println(name+<span class="string">&quot;在睡觉&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/06/30/day08/">http://senye.ink/2021/06/30/day08/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/06/29/day07/" title="day07"><span>NextPost ></span><br><span class="nextTitle">day07</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E6%A6%82%E5%BF%B5"><span class="toc-number">1.0.1.</span> <span class="toc-text">1.概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E6%A0%BC%E5%BC%8F"><span class="toc-number">1.0.2.</span> <span class="toc-text">2.格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">1.0.3.</span> <span class="toc-text">注意</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E8%BD%BD"><span class="toc-number">1.0.4.</span> <span class="toc-text">重载</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-%E4%BC%A0%E5%80%BC"><span class="toc-number">1.0.5.</span> <span class="toc-text">5.传值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-%E9%80%92%E5%BD%92"><span class="toc-number">1.0.6.</span> <span class="toc-text">6.递归</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">面向对象简介</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

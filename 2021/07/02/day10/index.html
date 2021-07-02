@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title"></h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-02</span></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h4 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h4><p>  多个类中出现了重复的内容，把这些重复的内容放到新的类中，通过extend关键字让原来的类和新的类产生了继承关系，原来的类称之为子类、新的类称之为父类。子类可以继承父类部分信息。</p>
+<p>继承方式（树状图）</p>
+<p>   单继承：一个类只能有一个父类，一个类可以有多个子类（支持多级继承）</p>
+<h4 id="重写"><a href="#重写" class="headerlink" title="重写"></a>重写</h4><p>  在父子类中出现了方法签名一致的方法称之为叫重写，遵守重写原则（两等两小一大）</p>
+<p>  方法签名一致（如果方法签名一致java才会按照重写去检测是否遵守原则如果方法签名不一致则不检测重写原则—方法签名一致是重写的前提）</p>
+<p>  如果父类的方法返回值类型是基本数据类型、void，那么子类的方法返回值类型和父类保持一致</p>
+<p>  如果父类的方法返回值类型是引用数据类型，那么子类的方法返回值类型要么和父类一致，要么是父类方法返回值类型的子类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span></span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> A <span class="title">m</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="keyword">null</span>;<span class="comment">//A a=null;</span></span><br><span class="line">            &#125;</span><br><span class="line">    <span class="comment">//public int m()&#123;return 1;&#125;//int a=1;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">D</span> <span class="keyword">extends</span> <span class="title">C</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> A/<span class="function">B <span class="title">m</span><span class="params">()</span></span>&#123;<span class="keyword">return</span> <span class="keyword">null</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="权限修饰符"><a href="#权限修饰符" class="headerlink" title="权限修饰符"></a>权限修饰符</h4><p>（由定义信息的位置和操作信息的位置共同决定一个位置信息）子类  其他类 同包类 本类。（控制在哪些位置关系下操作定义的信息</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>本类</th>
+<th>同包类</th>
+<th align="right">子类</th>
+<th>其他类</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>public）（垃圾桶)</td>
+<td>可以</td>
+<td>可以</td>
+<td align="right">可以</td>
+<td></td>
+</tr>
+<tr>
+<td>protected(水杯)</td>
+<td>可以</td>
+<td>可以</td>
+<td align="right">可以</td>
+<td>不可以</td>
+</tr>
+<tr>
+<td>private</td>
+<td>可以</td>
+<td>不可以</td>
+<td align="right">不可以</td>
+<td>不可以</td>
+</tr>
+<tr>
+<td>默认不写（窗户）</td>
+<td>可以</td>
+<td>可以</td>
+<td align="right">同包子类</td>
+<td>不可以</td>
+</tr>
+</tbody></table>
+<p>子类的访问权限修饰符要么和父类一致要么大于父类权限的修饰符范围。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Class A&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">m</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">m</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="super"><a href="#super" class="headerlink" title="super"></a>super</h4><ol>
+<li><p>关键字，代表父类的对象可以调用父类的属性和方法</p>
+</li>
+<li><p>super语句可以在子类构造方法中调用父类的构造方法，要在首航使用</p>
+</li>
+<li><p>子类的每个构造方法中默认含有一个无参的super语句去调用父类的无参构造，如果父类没有提供无参构造，子类的每一个构造方法里需要手动书写有参super语句调用父类对应点有参构造</p>
+</li>
+<li><p>父类的对象优先于子类的对象产生</p>
+</li>
+<li><p>子类的<strong>对象信息</strong>的执行顺序 父类的构造代码块-父类构造的方法-子类构造的代码块-子类构造的方法</p>
+<h4 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h4><p>在程序操作过程中可以凸显多种形式</p>
+<p>从java的时期来解释多态，编译时期和运行时期</p>
+<p>编译时多态：在编译时期绑定代码 体现形式—重载 </p>
+</li>
+</ol>
+<p>   运行时多态：在运行时期绑定代码  体现形式—重写 向上造型—前提是继承）</p>
+<p>   向上造型</p>
+<p>   声明类是父类，实际创建类是子类，这样创建的对象就是向上造型 向上造型的对象可以调用哪些方法看父类，方法的具体执行看子类是否有重写（父类—目录 子类—正文）</p>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.duotai;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DTDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">/*//养宠物</span></span><br><span class="line"><span class="comment"> Pet p;</span></span><br><span class="line"><span class="comment"> //养条狗</span></span><br><span class="line"><span class="comment"> p=new Dog();*/</span></span><br><span class="line"> <span class="comment">//左边声明类是父类，右边实际创建对象的类是子类---向上造型</span></span><br><span class="line"> Pet p=<span class="keyword">new</span> Dog();</span><br><span class="line"> <span class="comment">//向上造型的对象可以调用哪些方法看父类</span></span><br><span class="line"> <span class="comment">//向上造型调用的方法的具体执行看子类是否有重写方法</span></span><br><span class="line"> p.eat();</span><br><span class="line"> <span class="comment">//调用方法</span></span><br><span class="line"> <span class="comment">//匿名对象适用于当作参数传递</span></span><br><span class="line"> m(<span class="keyword">new</span> Pet());</span><br><span class="line"> m(<span class="keyword">new</span> Dog());</span><br><span class="line"> m(<span class="keyword">new</span> Cat());</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">m</span><span class="params">(Pet p)</span></span>&#123;<span class="comment">//=new Pet(); =new Dog(); =new Cat();</span></span><br><span class="line"> p.eat();</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义代表宠物的类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Pet</span></span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;在吃东西。。。&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span></span>&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;在睡觉。。。&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义代表狗的类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Pet</span></span>&#123;</span><br><span class="line"> <span class="comment">//重写</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;在呼哧呼哧的吃。。。&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bark</span><span class="params">()</span></span>&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;在汪汪汪的叫。。。&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义代表猫的类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Pet</span></span>&#123;</span><br><span class="line"> <span class="comment">//重写</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;在哼哧哼哧的吃。。。&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">public</span> <span class="keyword">void</span> 磨爪子()&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;在磨爪子。。。&quot;</span>);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>多态的优点：</p>
+<p>1.参数功能统一</p>
+<ol start="2">
+<li>高内聚低耦合 （解耦—降低耦合度）</li>
+</ol>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/02/day10/">http://senye.ink/2021/07/02/day10/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/01/day09/" title="day09"><span>NextPost ></span><br><span class="nextTitle">day09</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-number">1.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%86%99"><span class="toc-number">2.</span> <span class="toc-text">重写</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="toc-number">3.</span> <span class="toc-text">权限修饰符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#super"><span class="toc-number">4.</span> <span class="toc-text">super</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E6%80%81"><span class="toc-number">5.</span> <span class="toc-text">多态</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

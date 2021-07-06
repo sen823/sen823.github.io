@@ -186,14 +186,14 @@
   </url>
   
   <url>
-    <loc>http://senye.ink/tags/myfirst/</loc>
+    <loc>http://senye.ink/tags/final-%E6%8A%BD%E8%B1%A1-%E6%8E%A5%E5%8F%A3/</loc>
     <lastmod>2021-07-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>http://senye.ink/tags/dos/</loc>
+    <loc>http://senye.ink/tags/myfirst/</loc>
     <lastmod>2021-07-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -208,6 +208,13 @@
   
   <url>
     <loc>http://senye.ink/tags/%E5%85%B3%E4%BA%8Espark%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</loc>
+    <lastmod>2021-07-06</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://senye.ink/tags/dos/</loc>
     <lastmod>2021-07-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

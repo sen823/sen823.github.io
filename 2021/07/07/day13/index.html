@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day13 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day13</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-07</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="内部类 垃圾返回机制 包"> 内部类 垃圾返回机制 包</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h4 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h4><p>类里定义类 ：匿名内部类</p>
+<h4 id="垃圾回收机制"><a href="#垃圾回收机制" class="headerlink" title="垃圾回收机制"></a>垃圾回收机制</h4><p>栈：使用完内容 立即清除（不会产生垃圾）</p>
+<p>方法区：存储类的信息（有垃圾但是很少）</p>
+<p>堆：使用完对象 等到某个时刻才进行回收 （垃圾回收的主要针对内存区域）</p>
+<p>堆分为新生代和老生代，新生代分为伊甸园区和幸存区。每次创建的新对象先存储在伊甸园区，系统针对这个区域进行一次扫描，如果发现新对象没有在使用就通知系统进行垃圾回收，如果新对象还在使用就新对象挪动到幸存区，系统针对幸存区这个区域进行多次扫描，如果发现对象没有在使用就通知系统进行垃圾回收，如果发生对象仍然还在使用就把对象挪动到老生代。系统针对老生代这个区域进行扫描，如果发现对象没有在使用通知系统进行垃圾回收，如果发现对象还在使用就是存储在老生代。</p>
+<h4 id="·包"><a href="#·包" class="headerlink" title="·包"></a>·包</h4><p>区分同名类</p>
+<p>用法：1.声明包 package 表明类的的位置，要在代码的首行，只能出现一个 ;2. import 导包 使用的类和当前类不在一个包下（不在代码首行 可以出现多个）3.* 代表通配符可以匹配到当前级别所有的类或者接口</p>
+<p>提供的包</p>
+<p>java : java原生包 </p>
+<p>lang包：提供的是核心类库，随着程序的启动而加载，使用时不需要导包 ；</p>
+<p>util 包 ：操作；类和对象的工具；</p>
+<p>applet awt 包；</p>
+<p>beans包：框架 ；</p>
+<p>io包：数据传输；</p>
+<p>math包：提供了简单的数学运算；</p>
+<p>net包：网络传输 </p>
+<p>nio包：高并发   2008  8  8  奥运会 网站崩了</p>
+<p>security包：安全</p>
+<p>sql包：操作sql语句的</p>
+<p>time包：代表时间和日期</p>
+<p>javax：java的扩展包</p>
+<p>org  ：第三方厂商提供的包  Apache（民间组织） (hadoop) </p>
+<h4 id><a href="#" class="headerlink" title></a></h4><p>API(appication Programing Interfaces)—应用程序接口（提供了一系列的类或者接口）api中所有的方法要么被</p>
+<p>Object类是java中所有类的父类，java中所有的类默认继承object类。 </p>
+<p>重要方法</p>
+<p>1.clone() 把原对象中属性值拷贝到新对象中并且返回新对象类需要实现cloneable接口产生的对象才支持克隆</p>
+<ol start="2">
+<li>finalize（）通知系统进行垃圾回收</li>
+<li>getClass() 返回object的实际创建类型（本质是返回的是对象的类型—包名+类名）</li>
+<li>hashcode（）返回对象的哈希码值，不同对象的哈希码值不一样 哈希码特点（取值范围广。散列分布—唯一的代表内存地址值）</li>
+<li>toString() object类里的toStringa方法拼接对象地址值来返回 希望操作对象看到的是对象属性值而不是地址值需要重写object类里的toString方法以后定义类需要重写toString方法</li>
+</ol>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/07/day13/">http://senye.ink/2021/07/07/day13/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/06/day12/" title="day12"><span>NextPost ></span><br><span class="nextTitle">day12</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%85%E9%83%A8%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">内部类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="toc-number">2.</span> <span class="toc-text">垃圾回收机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%C2%B7%E5%8C%85"><span class="toc-number">3.</span> <span class="toc-text">·包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text"></span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

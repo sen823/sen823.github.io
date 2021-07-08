@@ -1,0 +1,294 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day14 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day14</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-08</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="综合复习以上所学"> 综合复习以上所学</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h1 id="复习"><a href="#复习" class="headerlink" title="复习"></a>复习</h1><p> <strong>基本语法</strong></p>
+<p>跨平台—事先在操作系用上存放对应的jvm 讲java程序放到jvm中来运行，使得相同的java程序在不同的操作系统上得到的结果是一样的  （一次编译 到处运行）.java文件在jvm外部进行编译，把.class文件放入到jvm中来运行</p>
+<p><strong>三大架构</strong></p>
+<p>javase(基础)  javaee（企业）  javame</p>
+<p>搭建语言环境</p>
+<p>jre:java运行时环境 包含jvm和核心类库</p>
+<p>jdk：开发时的工具包—开发环境和运行环境 包含jre+kit（工具包）</p>
+<p><strong>编译和运行</strong></p>
+<p>.java文件（源文件）—-编译—-.class文件（字节码文件)  编译时期（在检测java程序的语法问题）</p>
+<p>.class文件（字节码文件） 可以 运行—结果  运行时期在检测java程序的执行逻辑</p>
+<p>main方法—可以让类单独执行、所有java程序的入口、被jvm调用</p>
+<p>.java文件可以定义多个类 每个类可以被编译生成对应的.class文件</p>
+<p><strong>关键字</strong></p>
+<p>在java中具有特殊功能的单词 53个关键字 全部都是小写 false true null 有值                                                                                                                    </p>
+<p><strong>标识符</strong></p>
+<p>可以自定义 一定范围之内的名称 组成范围： 各国常见文字 数字 特殊符号  </p>
+<p>命名规则：不能出现关键字 不能以数字开头 在组成范围之内符合命名规则–合法  在合法的基础上可以遵守规范 </p>
+<p>驼峰命名法 ：</p>
+<p>类名、接口名 :XxxYyy</p>
+<p>方法名 变量名：xxxYyy</p>
+<p>常量名：XXX_YYY</p>
+<p>包名（每级名称都是小写）</p>
+<p>要做到见名知意</p>
+<p>注释 ：在代码中用于解释说明的文字 单行注释 //  多行注释/* */  文档注释 </p>
+<p>常量：程序运行过程中 值不发生改变</p>
+<p>分类： 字面值常量 （整数 小数 字符 字符串 布尔 空）  自定义常量（用fianal修饰数据—最终值   final int a =1 ）</p>
+<p>数据的表现形式（二进制 八进制 十进制 十六进制 进制之间可以转换）</p>
+<p>有符号的数：java中所有数据都是以底层二进制数据的补码形式来表示( 数据的操作也是以二进制数据的补码形式来操作)   源码 反码 补码 </p>
+<p>小数（十进制的小数转成二进制绝大部分是无限位数）</p>
+<p>变量 ：程序运行过程中值可以发生改变  可以存储单个数据的容器  容器：变量 单个数据 所有数据类型和数组  多个数据  所有数据类型</p>
+<p>数据类型 {基本数据类型{4类8种} 引用数据类型{数组 类 接口}}：限制数据的变化范围</p>
+<p>byte—2<code>7~2</code>7-1(-128—-127)</p>
+<p>short—2<code>15 ~ 2</code>15-z(-12==23768~23767)</p>
+<p>int—  -2<code>31~2</code>31</p>
+<p>long—  -2<code>63~2</code>63-1</p>
+<p>char–0~65535</p>
+<p>编码—把文字转成数字的过程 转换的规则—码表</p>
+<p>转义字符—‘\t’  引用数据类型（数组 接口 类）</p>
+<p>类型的定义和转换 </p>
+<p> 数据类型  变量名 ==初始值；</p>
+<p>数据类型 变量名；声明</p>
+<p>变量应=初始值</p>
+<p>变量是在哪定义在哪使用</p>
+<p>类型转换（1.类型提升 默认从小到大 2.强制类型转换）</p>
+<p><strong>运算符</strong></p>
+<p>算数运算符</p>
+<p>+（加法 字符串连接符）（整数不能除0 小数可以）%（取余符号的左边的正负决定了结果的正负）++ – （如果在操作数之前先自加再赋值  如果在操作数之后 先赋值 再自加）</p>
+<p>赋值运算符（扩展赋值运算符底层默认有强制类型转换）</p>
+<p>比较运算符（结果一定是布尔值）</p>
+<p>逻辑运算符（&amp;&amp; || —-都具有短路效果）</p>
+<p>位运算符 针对二进制数据的补码形式来做运算符 &amp;（任意整数&amp;1来判断是否为奇数还是偶数 | 任意整数 |0还是本身 ^扩展规律</p>
+<p>移位（左移 右移 无符号右移）</p>
+<p>三目运算符</p>
+<p>格式—布尔表达式？表达式值1：表达式值2； 结果一定是个值</p>
+<p>优先级都可以通过（）来解决</p>
+<p>流程控制语句</p>
+<p>顺序结构</p>
+<p>选择结构（做判断 提供选项来做判断）</p>
+<p>if语句（三种格式对应三种选择场景） 根据范围来选择</p>
+<p>switch语句（根据值来选择）</p>
+<p>循环结构（解决重复执行的问题）</p>
+<p>for循环 while 循环 dowhile循环  for循环和while循环的执行流程一致 如果循环范围确定 推荐for 如果不确定 推荐while循环</p>
+<p>dowhile循环最少执行一次</p>
+<p>continue 在循环中跳过当次循环</p>
+<p>return 在方法中返回值 结束方法</p>
+<p>break 在switch中结束语句 在循环中结束循环</p>
+<p><strong>数组</strong></p>
+<p>可以存储对个相同数据类型的元素  的容器（支持所有的数据类型）</p>
+<p>定义格式</p>
+<p>数据类型 数组 数组名=new 数据类型【数组长度】；//指定数组长度</p>
+<p>数据类型 数组名 =new 数据类型【】{值1，值2}；//指定数组元素值也就把长度确定了</p>
+<p>数据类型 数组名={值1，值2，…..、}；//指定数组元素值也就把长度确定了</p>
+<p>数组名【编号】—-唯一确定 的数组元素</p>
+<p>java内存分区</p>
+<p>栈：存储的是变量 （暂且）—java的执行过程（所有的方法加载到栈中执行）  内容使用完毕立即清除 </p>
+<p>堆：存储的是对象 对象使用完毕等到某个时刻来回收</p>
+<p>方法区: 存储类的信息</p>
+<p>本地方法栈：（本地 操作系统 方法）</p>
+<p>寄存器（pc计数器）： 表示代码执行的指令</p>
+<p>系统默认初始值（堆里）—（byte short char int–0)  ( char—-‘\0000’  )   (long—OL)  (float—0.0F)  (double–0.0)  (boolean—false)   引用数据类型 –null</p>
+<p>应用</p>
+<p>遍历（普通for循环  增强for循环：把数组元素拷贝给新变量 把结果拼接成一个字符串返回 </p>
+<p>最值  （根据参照物来比较最大值、最小值）</p>
+<p>查找   （有序 无序)  有序 二分根据二分算法来实现 缺点 ：无序 查找数在最前面</p>
+<p>排序（排序算法—冒泡 （相邻两个元素进行比较  一轮比完得到一个最大值）选择（ 选择一个定点元素和后续其他元素进行比较一轮比完 得到一个最小值）） Arrays.sort（—-底层提供了很多排序算法）</p>
+<p>扩容(通过原数组和新数组之间的复制实现扩容 两种方式来实现方式适用于灵活复制元素，第二种适用于从头复制 书写方便)</p>
+<p><strong>二维数组</strong> </p>
+<p> 存储元素是一位数组的数组</p>
+<p>定义格式（1.指定二维数组长度以及每一个一位数组的长度 2.指定二维数组长度就是在声明一维数组 3.指定元素值来确定二维数组的长度）</p>
+<p>方法</p>
+<p>把重复且有效的代码抽象形式</p>
+<p>格式</p>
+<p>修饰符 方法返回值类型 方法名 （参数列表）{</p>
+<p>方法体；</p>
+<p>return 返回值；</p>
+<p>}</p>
+<p>java中的方法是根据方法签名来唯一确定</p>
+<p>方法必须被调用才执行 （方法不主动执行）</p>
+<p>抽取方法—-方法返回值类型 参数列表</p>
+<p><strong>重载</strong>  </p>
+<p> 在一个类中 方法名一致 参数；列表不一致 （只和方法名 和参数列表有关系）    </p>
+<p><strong>传值</strong></p>
+<p>实参是基本数据类型 传递的是值的拷贝 </p>
+<p>实参是引用数据类型 传递的是地址值的拷贝</p>
+<p>根据拷贝的地址值找到原堆内存就会有影响</p>
+<p>根据拷贝的地址值没有找到对应的原堆内存就不会有影响</p>
+<p><strong>递归</strong></p>
+<p>执行方法过程中 再次调用本方法</p>
+<p>递归次数过多 有可能会造成栈溢出错误</p>
+<h4 id="面向对象简介"><a href="#面向对象简介" class="headerlink" title="面向对象简介"></a>面向对象简介</h4><p>面向过程：关注的是代码的实现细节</p>
+<p>面向对象：先把代码实现细节整合到对象中，只要找到对象就能拥有对象的功能</p>
+<p>面向对象基于面向过程</p>
+<p>类与对象的关系</p>
+<p>类是对象的概括 对象是对类的具体实现</p>
+<p>类是描述信息的 描述的信息就是对象即将拥有的特征和行为</p>
+<p>构造方法 </p>
+<p>构建对象</p>
+<p>属性初始化</p>
+<p>支持重载 </p>
+<p>类中至少含有一个构造方法</p>
+<p><strong>this</strong></p>
+<p>目的：属性初始化 参与类的信息和描述 可以让类中的属性和成员方法参与进来</p>
+<p>功能：代表当前类的对象</p>
+<p>this语句：—在本体的构造方法调用其他构造方法</p>
+<p>构造代码块</p>
+<p>无论调用哪个构造方法都要先执行构造代码块的内容</p>
+<p>局部代码块</p>
+<p>控制变量的生命周期</p>
+<p>局部变量和成员变量</p>
+<p>成员变量和成员方法 不包括构造方法 都是参与描述类的信息</p>
+<p>定义位置</p>
+<p>适用范围</p>
+<p>内存分区</p>
+<p>生命周期 0</p>
+<p><strong>三大特征</strong></p>
+<p>封装继承多态</p>
+<p>封装：是为了以后更好的维护代码</p>
+<p>方法：属性私有化提供公共的访问方式来做取值和赋值</p>
+<p>继承</p>
+<p>多个类出现重复内容 把重复内容拿到新的类中，让原来的类和新的类通过extends关键字产生继承关系，原来的类称之为子类，新的类称之为父类，子类只能继承父类的部分信息（私有化信息以及构造方法和构造代码块都不能继承）</p>
+<p>java中类与类之间支持单继承（类只能有一个父类  一个父类可以有多个子类）</p>
+<p>重写 </p>
+<p>父子类出现方法签名一致的方法 </p>
+<p>遵守重写原则（两等 两小 一大）</p>
+<p>方法签名（是重写的前提）</p>
+<p>如果父类 的方法返回值类型是基本数据类型或者是void那么子类的返回值方法要和父类的一致</p>
+<p>子类的访问权限修饰符 要么和父类一致 要么比父类的范围要大</p>
+<p>访问权限修饰符 （由定义信息的位置和操作信息的位置   控制可以在那些位置关系下操作定义的信息 ）</p>
+<p>super </p>
+<p>代表父类的对象 可以去调用父类 的信息</p>
+<p>super 语句—在子类的构造方法中去调用父类的构造方法 保证每个子类的构造方法都可以调用到父类构造方法 父类对象优先于子类对象先出现  父子类对象信息的执行顺序（父类构造代码块-父类构造方法-子类构造代码块-子类构造方法）</p>
+<p>多态</p>
+<p>程序运行过程中可以展现的多种形态</p>
+<p>编译时多态  编译时期绑定代码</p>
+<p>方法重载       </p>
+<p>运行时多态  运行时期绑定代码  重写   </p>
+<p>静态变量</p>
+<p>类存放在方法区的静态常量池里，静态变量存储在方法区静态常量池的静态区  可以通过类名.形式来调用也可以通过对象调用</p>
+<p>静态变量被所有的对象共享</p>
+<p>静态方法</p>
+<p>类存放在方发区的静态常量池里，静态方法存储在方法区静态常量池的静态区   静态方法被调用加载到栈中执行  可以重载不能重写   静态信息不能直接访问非静态信息，静态信息可以直接访问静态信息，非静态信息可以直接访问静态信息以及非静态信息</p>
+<p>静态代码块</p>
+<p>预先加载资源以及静态属性初始化</p>
+<p>随着类的加载而加载只加载一次</p>
+<p>所有静态信息都只加载一次</p>
+<p>父子类执行顺序（父类静态信息-子类静态信息–父类构造代码块 成员变量 –父类构造方法–子类（构造代码块，成员变量）-子类构造方法—先是类级别再试对象级别，无论是哪个级别顺序都是先父后子</p>
+<p><strong>final</strong></p>
+<p>修饰符，数据（如果是基本数据类型值不变，如果是引用类型是地址值不改变；如果是成员变量要求在创建对象之前给值，如果是静态常量要求在类加载完成之前给值—自定义变量</p>
+<p>方法（可以重载不能重写），类（不能被继承）、</p>
+<p><strong>abstract</strong></p>
+<p>如果每个子类都对父类中某个方法进行不同程度的重写，某个方法的方法体没有实际意义可以把方法体去掉加上abstract变成 抽象方法，抽象方法所在的类是抽象类。 抽象方法要被重写 抽象类没有对象 抽象类的目的延展类的继承结构</p>
+<p>接口</p>
+<p>抽象类中的方法都是抽象方法可以变成接口</p>
+<p> 接口不是类 类和接口的关系只能是实现（支持多实现），接口与接口支持多继承—目的是为了给实现类丰富更多的功能 </p>
+<p>接口没有对象</p>
+<p> 接口可以定义属性和抽象方法，属性默认被public static final共同修饰，抽象方法被public abstract来修饰 接口声明的对象可以在编译时期接收任意类型对象的赋值</p>
+<p> 接口目的是为了注入更多的特性（功能）</p>
+<p> 接口和抽象类的比较</p>
+<p>优点：约束 模板</p>
+<p><strong>内部类</strong></p>
+<p>方法内部类</p>
+<p>方法内定义类</p>
+<p>不能访问权限修饰符修饰</p>
+<p>可以获取本方法中常量信息</p>
+<p>创建对象只能在本方法中</p>
+<p><strong>成员内部类</strong></p>
+<p>创建对象（由外部类对象调用内部类对象—要创建两个对象）</p>
+<p><strong>静态内部类</strong></p>
+<p>可以定义所有的信息</p>
+<p>只能获取外部类的静态信息</p>
+<p>创建对象</p>
+<p><strong>匿名内部类</strong></p>
+<p>可以默认继承类/实现接口，重写抽象方法 常用于方法形参类型是抽象类或者是接口的参数传递</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/08/day14/">http://senye.ink/2021/07/08/day14/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/07/day13/" title="day13"><span>NextPost ></span><br><span class="nextTitle">day13</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%8D%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">复习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%AE%80%E4%BB%8B"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">面向对象简介</span></a></li></ol></li></ol></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day15 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day15</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-09</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="String 方法 最终类"> String 方法 最终类</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>clone():把原对象的属性值复制到新对象中 并且返回到新对象</p>
+<p>finalize()：通知系统进行垃圾回收</p>
+<p>getClass（）：返回实际创建类的类型</p>
+<p>hashcode():：返回对象的哈希码值</p>
+<p>toString（）：返回对象拼接的地址值</p>
+<h4 id="String-类"><a href="#String-类" class="headerlink" title="String 类"></a>String 类</h4><p>最终类 —没有子类</p>
+<p>java中所有的字符串常量 都是String类的对象</p>
+<p>String类对象的内容存储在底层的无法改变的字符数组中，String类创建</p>
+<h4 id="重要方法"><a href="#重要方法" class="headerlink" title="重要方法"></a>重要方法</h4><p>1.charAt():根据指定的下标返回对应的字符</p>
+<p>2.length()：返回字符串对象的长度</p>
+<p>3.toCharArray():将字符串对象内容转成新的字符数组进行返回</p>
+<p>4.new String(char[] cs,int offset,int count)—可以将字符数组的部分内容转成新的字符串对象来进行返回</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.string;</span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringDemo2</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//</span></span><br><span class="line"> String str = <span class="string">&quot;asjcvh&quot;</span>;</span><br><span class="line"> <span class="comment">//给定字符串的下标返回对应的字符</span></span><br><span class="line"> <span class="comment">//字符串的下标对应底层存储的字符数组的下标（从0开始）</span></span><br><span class="line"> <span class="comment">//System.out.println(str.charAt(3));</span></span><br><span class="line"> <span class="comment">//遍历字符串</span></span><br><span class="line"> <span class="comment">//字符串对象调用length()返回字符串的长度</span></span><br><span class="line"> <span class="comment">//数组对象调用length属性返回数组长度</span></span><br><span class="line"> <span class="comment">/* for(int i=0;i&lt;str.length();i++)&#123;</span></span><br><span class="line"><span class="comment"> System.out.println(str.charAt(i));</span></span><br><span class="line"><span class="comment"> &#125;*/</span></span><br><span class="line"> <span class="comment">//将字符串对象内容转成新的字符数组</span></span><br><span class="line"> <span class="comment">//Ctrl+Alt+v---把返回值直接展示</span></span><br><span class="line"> <span class="keyword">char</span>[] cs = str.toCharArray();</span><br><span class="line"> <span class="comment">//先把字符数组内容转成新的字符串对象</span></span><br><span class="line"> <span class="comment">//String s = new String(cs);</span></span><br><span class="line"> <span class="comment">//可以把字符数组的部分内容转成新的字符串对象</span></span><br><span class="line"> String s = <span class="keyword">new</span> String(cs, <span class="number">1</span>, <span class="number">4</span>);</span><br><span class="line"> <span class="comment">//展示数组内容</span></span><br><span class="line"> System.out.println(Arrays.toString(cs));</span><br><span class="line"> System.out.println(s);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>equals()</p>
+<p>  1.根据对象地址值来比较两个对象是否相等</p>
+<p>  2.想根据对象地址值和对象属性值综合判断两个对象是否相等需要重写equal方法（判断对象地址值是否相同  判断参数对象是否为null  判断两个对象的类型是否一致  判断对象的属性是否一致）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.object;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObjectDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Person p1=<span class="keyword">new</span> Person();</span><br><span class="line">        p1.name=<span class="keyword">null</span>;</span><br><span class="line">        p1.age=<span class="number">10</span>;</span><br><span class="line">        p1.gender=<span class="string">&#x27;女&#x27;</span>;</span><br><span class="line">        Person p2=<span class="keyword">new</span> Person();</span><br><span class="line">        p2.name=<span class="keyword">null</span>;</span><br><span class="line">        p2.age=<span class="number">10</span>;</span><br><span class="line">        p2.gender=<span class="string">&#x27;女&#x27;</span>;</span><br><span class="line">        System.out.println(p1.equals(p2));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    String name;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">char</span> gender;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == obj) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (obj == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.getClass() != obj.getClass()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Person p = (Person) obj;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.age != p.age) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.gender != p.gender) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>.name == p.name || <span class="keyword">this</span>.name != <span class="keyword">null</span> &amp;&amp; <span class="keyword">this</span>.name.equals(p.name)) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="最终类–没有子类"><a href="#最终类–没有子类" class="headerlink" title="最终类–没有子类"></a>最终类–没有子类</h4><p>java中所有的字符串常量都是String类的对象</p>
+<p> String类对象的内容存储在底层的无法改变的字符数组中，</p>
+<p>String类创建出的对象值也就无法改变 java中所有的常量存储在方法区的运行时常量池（字符串常量存的是引用，其他的常量存储是值） 如果给定的字符串常量内容和之前的出现的内容一致，公用同一个方法区常量引用—共享</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.string;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringDemo1</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//String str引用指向&quot;abc&quot;</span></span><br><span class="line"> <span class="comment">/* String str=&quot;abc&quot;;</span></span><br><span class="line"><span class="comment"> System.out.println(str);</span></span><br><span class="line"><span class="comment"> //改变了指向,String str引用指向&quot;def&quot;</span></span><br><span class="line"><span class="comment"> str=&quot;def&quot;;</span></span><br><span class="line"><span class="comment"> System.out.println(str);*/</span></span><br><span class="line"> <span class="comment">//s1指向方法区</span></span><br><span class="line"> String s1=<span class="string">&quot;ab&quot;</span>;</span><br><span class="line"> <span class="comment">//s2指向堆</span></span><br><span class="line"> String s2=<span class="keyword">new</span> String(<span class="string">&quot;ab&quot;</span>);</span><br><span class="line"> <span class="comment">//s3给定的字符串常量的内容和s1给定内容一致，所以公用一个方法区的常量引用，所以地址值一致</span></span><br><span class="line"> String s3=<span class="string">&quot;ab&quot;</span>;</span><br><span class="line"> <span class="comment">//如果参与运算的都是常量，那么在编译时期就可以进行优化直接进行运算把运算之后的结果来进行赋</span></span><br><span class="line">值</span><br><span class="line"> <span class="comment">//编译优化先计算---“a”+&quot;b&quot;进行拼接的结果是&quot;ab&quot;再把这个结果值赋值给s4</span></span><br><span class="line"> <span class="comment">//s4指向方法区（和s1指向一致）</span></span><br><span class="line"> String s4=<span class="string">&quot;a&quot;</span>+<span class="string">&quot;b&quot;</span>;</span><br><span class="line"> String s5=<span class="string">&quot;a&quot;</span>;</span><br><span class="line"> <span class="comment">//s5=s5+&quot;b&quot;;</span></span><br><span class="line"> <span class="comment">//String类的对象底层由不可改变的字符数组来存储所以对象的值不能改变---不能做拼接</span></span><br><span class="line"> <span class="comment">//String类借由别的类来做内容的拼接</span></span><br><span class="line"> <span class="comment">//底层实现---s5=new StringBuilder(&quot;a&quot;).append(&quot;b&quot;).toString();</span></span><br><span class="line"> <span class="comment">//toString方法底层是创建一个新的String类对象来返回</span></span><br><span class="line"> <span class="comment">//s5指向堆</span></span><br><span class="line"> s5+=<span class="string">&quot;b&quot;</span>;</span><br><span class="line"> <span class="comment">//s1和s2指向不同内存分区所以地址值不相同</span></span><br><span class="line"> System.out.println(s1==s2);<span class="comment">//false</span></span><br><span class="line"> System.out.println(s1==s3);<span class="comment">//true</span></span><br><span class="line"> System.out.println(s1==s4);<span class="comment">//true</span></span><br><span class="line"> System.out.println(s1==s5);<span class="comment">//false</span></span><br><span class="line"> <span class="comment">//s2指向堆，s5指向堆但是开辟两个不同的堆内存所以地址值不一样</span></span><br><span class="line"> System.out.println(s2==s5);<span class="comment">//false</span></span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>StringBulider和StringBuffer</p>
+<p>StringBuffer : 从jdk1.0出现用于实现String类的内容的拼接，线程安全但是拼接效率较低。</p>
+<p>StringBuilder：从jdk1.5开始出现用于实现String类内容的拼接，线程不安全但是拼接效率较高。</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/09/day15/">http://senye.ink/2021/07/09/day15/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/08/day14/" title="day14"><span>NextPost ></span><br><span class="nextTitle">day14</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#String-%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">String 类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E6%96%B9%E6%B3%95"><span class="toc-number">2.</span> <span class="toc-text">重要方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E7%B1%BB%E2%80%93%E6%B2%A1%E6%9C%89%E5%AD%90%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">最终类–没有子类</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

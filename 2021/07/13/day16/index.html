@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day16 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day16</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-13</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="重要方法 api"> 重要方法 api</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><p>编码–把文字转成数字的过程 过程的规则—码表</p>
+<p>ASSCII（阿斯科码表  底层占用一个字节（0~127) —-ISO8859-1（西欧码表 底层占用一个字节）—GB2312（中文简体） BIG5（中文繁体）—GBK（国标码 底层占用两个字节）  —Unicode编码体系 </p>
+<h4 id="重要方法"><a href="#重要方法" class="headerlink" title="重要方法"></a>重要方法</h4><ol>
+<li><h5 id="compareTo-：根据字典来比较两个字符串对象的大小"><a href="#compareTo-：根据字典来比较两个字符串对象的大小" class="headerlink" title="compareTo()：根据字典来比较两个字符串对象的大小"></a>compareTo()：根据字典来比较两个字符串对象的大小</h5></li>
+<li><h5 id="compareToIgnoreCase-：忽略大小写来进行字典比较"><a href="#compareToIgnoreCase-：忽略大小写来进行字典比较" class="headerlink" title="compareToIgnoreCase()：忽略大小写来进行字典比较"></a>compareToIgnoreCase()：忽略大小写来进行字典比较</h5><p>先把两个字符串对象的内容赋值给两个字符数组；对两个字符数组对应的位置的字符求差值；如果差值不为0则把当前差值当做结果值来返回；如果差值为0则挪动下标继续求对应位置字符的差值；如果每个位置的字符差值都为0直到其中一个字符遍历完，结果值就是两个字符数组长度的差值；如果差值为正数则表明前面的字符串对象内容大于后面的字符对象内容；如果差值为负数表明前面的字符串对象内容小于后面的字符对象内容；如果差值为0表明前面的字符串对象内容等于后面的字符对象内容；根据返回的结果值对字符串对象的内容进行字典排序 IgnoreCase忽略大小写进行字典比较</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str1 = <span class="string">&quot;abcs&quot;</span>;</span><br><span class="line">String str2 = <span class="string">&quot;Abxs&quot;</span></span><br><span class="line">System.out.println(str1.compareTo(str2));</span><br><span class="line">System.out.println(str1.compareToIgnoreCase(str2));</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="3">
+<li><h5 id="concat-把指定的字符串对象内容拼接到原字符串对象内容的末尾进行返回新的字符串对象；"><a href="#concat-把指定的字符串对象内容拼接到原字符串对象内容的末尾进行返回新的字符串对象；" class="headerlink" title="concat():把指定的字符串对象内容拼接到原字符串对象内容的末尾进行返回新的字符串对象；"></a>concat():把指定的字符串对象内容拼接到原字符串对象内容的末尾进行返回新的字符串对象；</h5><p>concat底层是通过新数组的扩容来实现内容的拼接；+和concat的区别：1. +底层是由StringBuilder来做拼接的，cancat底层是数组扩容实现拼接 2.+可以拼接任意类型的数据 但是cancat只能拼接字符串对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">System.out.println(str.concat(<span class="string">&quot;def&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="4">
+<li><h5 id="contains-判断指定的字符串对象内容是否是原串的字符串的子串（返回值是布尔值）"><a href="#contains-判断指定的字符串对象内容是否是原串的字符串的子串（返回值是布尔值）" class="headerlink" title="contains():判断指定的字符串对象内容是否是原串的字符串的子串（返回值是布尔值）"></a>contains():判断指定的字符串对象内容是否是原串的字符串的子串（返回值是布尔值）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">&quot;anjash&quot;</span>;</span><br><span class="line">System.out.println(str.contains(<span class="string">&quot;sasdasd&quot;</span>))</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="5">
+<li><h5 id="startsWith-endWith-判断是否以子串来开头、结尾-文件名称后缀-身份证-火车（G-高铁-T-特快-Z-直达）车牌号-身份证号"><a href="#startsWith-endWith-判断是否以子串来开头、结尾-文件名称后缀-身份证-火车（G-高铁-T-特快-Z-直达）车牌号-身份证号" class="headerlink" title="startsWith()/endWith():判断是否以子串来开头、结尾//文件名称后缀 身份证 火车（G-高铁 T-特快 Z-直达）车牌号 身份证号"></a>startsWith()/endWith():判断是否以子串来开头、结尾//文件名称后缀 身份证 火车（G-高铁 T-特快 Z-直达）车牌号 身份证号</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">&quot;xxxxx.avi&quot;</span>;</span><br><span class="line">System.out.println(str.endWith(<span class="string">&quot;.avi&quot;</span>));</span><br><span class="line">System.out.println(str.startsWith(<span class="string">&quot;xxxavi&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="6">
+<li><h5 id="equals-重写Object类里的方法，重写的功能是根据对象的地址值和对象的内容来进行比较"><a href="#equals-重写Object类里的方法，重写的功能是根据对象的地址值和对象的内容来进行比较" class="headerlink" title="equals():重写Object类里的方法，重写的功能是根据对象的地址值和对象的内容来进行比较"></a>equals():重写Object类里的方法，重写的功能是根据对象的地址值和对象的内容来进行比较</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StringDemo</span></span>&#123;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">String str1=<span class="string">&quot;aba&quot;</span>;</span><br><span class="line">String str2=<span class="keyword">new</span> String(<span class="string">&quot;Abc&quot;</span>)</span><br><span class="line"><span class="comment">//instanceof关键字，左边填入的是对象右边填入的可以是父类，本类，子类</span></span><br><span class="line"><span class="comment">//判断对象和类的关系</span></span><br><span class="line"><span class="comment">//是对Object类里的equals方法进行重写，重写的效果是不仅比较地址值还比较对象内容是否完全一致</span></span><br><span class="line">System.out.println(str.equals(str2));</span><br><span class="line"><span class="comment">//忽略大小写进行比较--验证码</span></span><br><span class="line">System.out.println(str1.equalsIgnoreCase(str2));</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="7">
+<li><h5 id="getBytes-把字符串对象内容转成对应的字节数组进行返回"><a href="#getBytes-把字符串对象内容转成对应的字节数组进行返回" class="headerlink" title="getBytes():把字符串对象内容转成对应的字节数组进行返回"></a>getBytes():把字符串对象内容转成对应的字节数组进行返回</h5></li>
+<li><h5 id="new-String-byte-bs-int-length-char-charset-可以把字节数组部分内容转成对应的新的字符串对象进行返回"><a href="#new-String-byte-bs-int-length-char-charset-可以把字节数组部分内容转成对应的新的字符串对象进行返回" class="headerlink" title="new String(byte[] bs,int length,char charset):可以把字节数组部分内容转成对应的新的字符串对象进行返回"></a>new String(byte[] bs,int length,char charset):可以把字节数组部分内容转成对应的新的字符串对象进行返回</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.sound.midi.Soundbank;</span><br><span class="line"><span class="keyword">import</span> java.io.UnsupportedEncodingException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JieMa</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> UnsupportedEncodingException </span>&#123;</span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        String str=<span class="string">&quot;abc拿来吧你&quot;</span>;</span><br><span class="line">        <span class="comment">//把字符串对象的内容转成对应的字节数组（如果不能指定码表就是系统默认平台代码---GBK</span></span><br><span class="line">        <span class="comment">//如果指定码表就按指定的码表来编码</span></span><br><span class="line">        <span class="comment">//文字转成数字---编码</span></span><br><span class="line">        <span class="keyword">byte</span>[] bytes = str.getBytes(<span class="string">&quot;gbk&quot;</span>);</span><br><span class="line">        <span class="comment">//把字节数组转换成新的字符串对象</span></span><br><span class="line">        <span class="comment">//数字转成文字---解码</span></span><br><span class="line">        <span class="comment">//乱码的问题就是由于编码和解码使用的码表不一致导致的</span></span><br><span class="line">        <span class="comment">//String s = new String(bytes,&quot;gbk&quot;);</span></span><br><span class="line">        <span class="comment">//把字节数组部分内容转成新的字符串对象</span></span><br><span class="line">        String s = <span class="keyword">new</span> String(bytes,<span class="number">0</span>,<span class="number">6</span>,<span class="string">&quot;gbk&quot;</span>);</span><br><span class="line">        System.out.println(bytes.length);</span><br><span class="line">        System.out.println(s);</span><br><span class="line">            &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="9">
+<li><h5 id="hashcode-针对Object类里方法进行重写，重写功能是计算过程之和和字符串对象的内容有关系"><a href="#hashcode-针对Object类里方法进行重写，重写功能是计算过程之和和字符串对象的内容有关系" class="headerlink" title="hashcode():针对Object类里方法进行重写，重写功能是计算过程之和和字符串对象的内容有关系"></a>hashcode():针对Object类里方法进行重写，重写功能是计算过程之和和字符串对象的内容有关系</h5></li>
+<li><h5 id="indexOf-返回子串第一次出现的下标-如果没有找到返回-1"><a href="#indexOf-返回子串第一次出现的下标-如果没有找到返回-1" class="headerlink" title="indexOf():返回子串第一次出现的下标 如果没有找到返回-1"></a>indexOf():返回子串第一次出现的下标 如果没有找到返回-1</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    </span><br><span class="line">String str=<span class="string">&quot;sadjvbdjf&quot;</span>;</span><br><span class="line"><span class="comment">//返回指定内容(子串)第一次出现的下标值</span></span><br><span class="line"><span class="comment">//如果没有找到返回-1</span></span><br><span class="line">System.out.println(str.indexOf(<span class="string">&quot;dj&quot;</span>));</span><br><span class="line"><span class="comment">//可以指定起始下标来查找第一次出现的子串（包含指定的下标）</span></span><br><span class="line">System.out.println(str.indexOf(<span class="string">&quot;dj&quot;</span>,<span class="number">3</span>));</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="11">
+<li><h5 id="intern-把指向堆中的引用转向到方法区中"><a href="#intern-把指向堆中的引用转向到方法区中" class="headerlink" title="intern():把指向堆中的引用转向到方法区中"></a>intern():把指向堆中的引用转向到方法区中</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/</span><br><span class="line"> <span class="comment">/* String str1=&quot;abc&quot;;</span></span><br><span class="line"><span class="comment"> String str2=new String(&quot;abc&quot;);</span></span><br><span class="line"><span class="comment"> //指向堆中的引用转向到方法区中</span></span><br><span class="line"><span class="comment"> str2=str2.intern();</span></span><br><span class="line"><span class="comment"> //</span></span><br><span class="line"><span class="comment"> System.out.println(str1==str2);*/</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="12">
+<li><h5 id="isEmpty-判断字符串对象是否为空串"><a href="#isEmpty-判断字符串对象是否为空串" class="headerlink" title="isEmpty():判断字符串对象是否为空串"></a>isEmpty():判断字符串对象是否为空串</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//空串---本身是对象但是对象内容为空</span></span><br><span class="line"> String str=<span class="string">&quot;&quot;</span>;<span class="comment">//空串</span></span><br><span class="line"> String str1=<span class="keyword">new</span> String(<span class="string">&quot;&quot;</span>);<span class="comment">//空串</span></span><br><span class="line"> String str2=<span class="keyword">new</span> String();<span class="comment">//空串</span></span><br><span class="line"> String str3=<span class="keyword">null</span>;<span class="comment">//null值---不指向任何内容区域</span></span><br><span class="line"> <span class="comment">//判断字符串对象是否是空串</span></span><br><span class="line"> System.out.println(str.isEmpty());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="13">
+<li><h5 id="mathches-根据填入的正则语法来匹配对应的字符串信息"><a href="#mathches-根据填入的正则语法来匹配对应的字符串信息" class="headerlink" title="mathches(): 根据填入的正则语法来匹配对应的字符串信息"></a>mathches(): 根据填入的正则语法来匹配对应的字符串信息</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PatternDemo1</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//</span></span><br><span class="line"> String str=<span class="string">&quot;9dss3485h78gv1&quot;</span>;</span><br><span class="line"> <span class="comment">//匹配内容为abc的字符串对象</span></span><br><span class="line"> <span class="comment">//System.out.println(&quot;abc&quot;.equals(str));</span></span><br><span class="line"><span class="number">13.</span>matches():根据填入的正则语法来匹配对应的字符串信息</span><br><span class="line"></span><br><span class="line"> <span class="comment">//System.out.println(&quot;abc&quot;.equals(str));</span></span><br><span class="line"> <span class="comment">//如果匹配的内容是一段固定内容，正则里可以填入固定内容</span></span><br><span class="line"> <span class="comment">//matches方法是来做具体的匹配，在方法里填入的正则内容是匹配条件</span></span><br><span class="line"> <span class="comment">//System.out.println(str.matches(&quot;abc&quot;));</span></span><br><span class="line"> <span class="comment">//匹配内容为数字（单个）的字符串对象</span></span><br><span class="line"> <span class="comment">// //d--字符串转义--/d--正则转义--[0-9]</span></span><br><span class="line"> <span class="comment">//System.out.println(str.matches(&quot;\\d&quot;));</span></span><br><span class="line"> <span class="comment">//匹配小写英文字母</span></span><br><span class="line"> <span class="comment">//[起始-结束]可以在起始和结束范围之内匹配一个字符</span></span><br><span class="line"> <span class="comment">//System.out.println(str.matches(&quot;[a-z]&quot;));</span></span><br><span class="line"> <span class="comment">//.---代表任意一个字符</span></span><br><span class="line"> <span class="comment">//*代表数量词，来修饰前面字符出现的个数</span></span><br><span class="line"> <span class="comment">//*代表前面的字符可以不出现、可以出现1次也开以出现多次</span></span><br><span class="line"> <span class="comment">//System.out.println(str.matches(&quot;.*&quot;));</span></span><br><span class="line"> <span class="comment">//匹配字符串中含有数字</span></span><br><span class="line"> System.out.println(str.matches(<span class="string">&quot;.*\\d.*&quot;</span>));</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="14">
+<li><h5 id="replaceAll（）：根据填入正则"><a href="#replaceAll（）：根据填入正则" class="headerlink" title="replaceAll（）：根据填入正则"></a>replaceAll（）：根据填入正则</h5></li>
+</ol>
+<p><strong>正则表达式</strong></p>
+<p>语法：d–字符串转义–/d–正则转义–【0-9】</p>
+<p>  针对<em>字符串的内容</em>进行匹配</p>
+<p>匹配内容为“你码没了”的字符串；System.out.println(“你码没了”.equals(str)); 如果匹配的内容时一段固定内容，正则里可以填固定内容；matches方法是来做具体匹配的，在方法里填入的正则内容是匹配条件；System.out.println(str.equals(“你码没了”))</p>
+<p>\d：表示一个十进制的数字 [0-9]<br>\D：表示非数字</p>
+<p>\w：表示一个字 [0－9a-zA-Z_]<br>\W：表示除[0－9a-zA-Z_]之外的字符</p>
+<p>\s：表示一个空白字符（空格，tab，换页符等）<br>\S：表示一个非空白字符</p>
+</li>
+</ol>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/13/day16/">http://senye.ink/2021/07/13/day16/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="prevSlogan" href="/2021/07/13/day17/" title="day17"><span>< PreviousPost</span><br><span class="prevTitle">day17</span></a><a class="nextSlogan" href="/2021/07/09/day15/" title="day15"><span>NextPost ></span><br><span class="nextTitle">day15</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E6%96%B9%E6%B3%95"><span class="toc-number">1.</span> <span class="toc-text">重要方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#compareTo-%EF%BC%9A%E6%A0%B9%E6%8D%AE%E5%AD%97%E5%85%B8%E6%9D%A5%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.1.</span> <span class="toc-text">compareTo()：根据字典来比较两个字符串对象的大小</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#compareToIgnoreCase-%EF%BC%9A%E5%BF%BD%E7%95%A5%E5%A4%A7%E5%B0%8F%E5%86%99%E6%9D%A5%E8%BF%9B%E8%A1%8C%E5%AD%97%E5%85%B8%E6%AF%94%E8%BE%83"><span class="toc-number">1.2.</span> <span class="toc-text">compareToIgnoreCase()：忽略大小写来进行字典比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#concat-%E6%8A%8A%E6%8C%87%E5%AE%9A%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AE%B9%E6%8B%BC%E6%8E%A5%E5%88%B0%E5%8E%9F%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AE%B9%E7%9A%84%E6%9C%AB%E5%B0%BE%E8%BF%9B%E8%A1%8C%E8%BF%94%E5%9B%9E%E6%96%B0%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%EF%BC%9B"><span class="toc-number">1.3.</span> <span class="toc-text">concat():把指定的字符串对象内容拼接到原字符串对象内容的末尾进行返回新的字符串对象；</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#contains-%E5%88%A4%E6%96%AD%E6%8C%87%E5%AE%9A%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AE%B9%E6%98%AF%E5%90%A6%E6%98%AF%E5%8E%9F%E4%B8%B2%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%AD%90%E4%B8%B2%EF%BC%88%E8%BF%94%E5%9B%9E%E5%80%BC%E6%98%AF%E5%B8%83%E5%B0%94%E5%80%BC%EF%BC%89"><span class="toc-number">1.4.</span> <span class="toc-text">contains():判断指定的字符串对象内容是否是原串的字符串的子串（返回值是布尔值）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#startsWith-endWith-%E5%88%A4%E6%96%AD%E6%98%AF%E5%90%A6%E4%BB%A5%E5%AD%90%E4%B8%B2%E6%9D%A5%E5%BC%80%E5%A4%B4%E3%80%81%E7%BB%93%E5%B0%BE-%E6%96%87%E4%BB%B6%E5%90%8D%E7%A7%B0%E5%90%8E%E7%BC%80-%E8%BA%AB%E4%BB%BD%E8%AF%81-%E7%81%AB%E8%BD%A6%EF%BC%88G-%E9%AB%98%E9%93%81-T-%E7%89%B9%E5%BF%AB-Z-%E7%9B%B4%E8%BE%BE%EF%BC%89%E8%BD%A6%E7%89%8C%E5%8F%B7-%E8%BA%AB%E4%BB%BD%E8%AF%81%E5%8F%B7"><span class="toc-number">1.5.</span> <span class="toc-text">startsWith()&#x2F;endWith():判断是否以子串来开头、结尾&#x2F;&#x2F;文件名称后缀 身份证 火车（G-高铁 T-特快 Z-直达）车牌号 身份证号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#equals-%E9%87%8D%E5%86%99Object%E7%B1%BB%E9%87%8C%E7%9A%84%E6%96%B9%E6%B3%95%EF%BC%8C%E9%87%8D%E5%86%99%E7%9A%84%E5%8A%9F%E8%83%BD%E6%98%AF%E6%A0%B9%E6%8D%AE%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%9C%B0%E5%9D%80%E5%80%BC%E5%92%8C%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AE%B9%E6%9D%A5%E8%BF%9B%E8%A1%8C%E6%AF%94%E8%BE%83"><span class="toc-number">1.6.</span> <span class="toc-text">equals():重写Object类里的方法，重写的功能是根据对象的地址值和对象的内容来进行比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#getBytes-%E6%8A%8A%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E5%86%85%E5%AE%B9%E8%BD%AC%E6%88%90%E5%AF%B9%E5%BA%94%E7%9A%84%E5%AD%97%E8%8A%82%E6%95%B0%E7%BB%84%E8%BF%9B%E8%A1%8C%E8%BF%94%E5%9B%9E"><span class="toc-number">1.7.</span> <span class="toc-text">getBytes():把字符串对象内容转成对应的字节数组进行返回</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#new-String-byte-bs-int-length-char-charset-%E5%8F%AF%E4%BB%A5%E6%8A%8A%E5%AD%97%E8%8A%82%E6%95%B0%E7%BB%84%E9%83%A8%E5%88%86%E5%86%85%E5%AE%B9%E8%BD%AC%E6%88%90%E5%AF%B9%E5%BA%94%E7%9A%84%E6%96%B0%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E8%BF%9B%E8%A1%8C%E8%BF%94%E5%9B%9E"><span class="toc-number">1.8.</span> <span class="toc-text">new String(byte[] bs,int length,char charset):可以把字节数组部分内容转成对应的新的字符串对象进行返回</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#hashcode-%E9%92%88%E5%AF%B9Object%E7%B1%BB%E9%87%8C%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E9%87%8D%E5%86%99%EF%BC%8C%E9%87%8D%E5%86%99%E5%8A%9F%E8%83%BD%E6%98%AF%E8%AE%A1%E7%AE%97%E8%BF%87%E7%A8%8B%E4%B9%8B%E5%92%8C%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AE%B9%E6%9C%89%E5%85%B3%E7%B3%BB"><span class="toc-number">1.9.</span> <span class="toc-text">hashcode():针对Object类里方法进行重写，重写功能是计算过程之和和字符串对象的内容有关系</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#indexOf-%E8%BF%94%E5%9B%9E%E5%AD%90%E4%B8%B2%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%87%BA%E7%8E%B0%E7%9A%84%E4%B8%8B%E6%A0%87-%E5%A6%82%E6%9E%9C%E6%B2%A1%E6%9C%89%E6%89%BE%E5%88%B0%E8%BF%94%E5%9B%9E-1"><span class="toc-number">1.10.</span> <span class="toc-text">indexOf():返回子串第一次出现的下标 如果没有找到返回-1</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#intern-%E6%8A%8A%E6%8C%87%E5%90%91%E5%A0%86%E4%B8%AD%E7%9A%84%E5%BC%95%E7%94%A8%E8%BD%AC%E5%90%91%E5%88%B0%E6%96%B9%E6%B3%95%E5%8C%BA%E4%B8%AD"><span class="toc-number">1.11.</span> <span class="toc-text">intern():把指向堆中的引用转向到方法区中</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#isEmpty-%E5%88%A4%E6%96%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA%E4%B8%B2"><span class="toc-number">1.12.</span> <span class="toc-text">isEmpty():判断字符串对象是否为空串</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mathches-%E6%A0%B9%E6%8D%AE%E5%A1%AB%E5%85%A5%E7%9A%84%E6%AD%A3%E5%88%99%E8%AF%AD%E6%B3%95%E6%9D%A5%E5%8C%B9%E9%85%8D%E5%AF%B9%E5%BA%94%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BF%A1%E6%81%AF"><span class="toc-number">1.13.</span> <span class="toc-text">mathches(): 根据填入的正则语法来匹配对应的字符串信息</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#replaceAll%EF%BC%88%EF%BC%89%EF%BC%9A%E6%A0%B9%E6%8D%AE%E5%A1%AB%E5%85%A5%E6%AD%A3%E5%88%99"><span class="toc-number">1.14.</span> <span class="toc-text">replaceAll（）：根据填入正则</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

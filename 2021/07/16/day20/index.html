@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day20 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day20</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-16</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="集合 List 队列 迭代器"> 集合 List 队列 迭代器</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="集合-Collection"><a href="#集合-Collection" class="headerlink" title="集合 Collection"></a>集合 Collection<E></E></h3><ol>
+<li><p>概述、</p>
+<p> 可以存储多个元素对象且长度可变的容器</p>
+</li>
+</ol>
+<p>&lt;大写字母&gt;—-泛型，用于指定集合元素的类型，由于泛型的限定元素类型只能是引用数据类型</p>
+<p>Collection<integer> c; —-因为有自动封箱的存在所以可以存储int类型的数据 集合中可以存储基本类型的数据</integer></p>
+<p>Collection<String> c; c 的数据类型是引用类型，元素类型是String类型</String></p>
+<p>int[] arr;//arr的数据类型是引用类型，元素类型是int</p>
+<ol start="2">
+<li><p>Collection是集合的顶级接口</p>
+<p>子窗口：List Set Queue</p>
+<p><strong><em>ArrayList</em></strong></p>
+<p>底层由数组实现，默认数组长度为10，内存连续，需要扩容，底层根据右移运算来进行扩容，扩容之后的新长度为原长度加上原长度的一半来实现ArrayList长度可变  增删效率较低 查询效率较高。 线程不安全的集合</p>
+<p><strong><em>LinkedList(链表)</em></strong></p>
+<p>底层通过节点 静态内部类的对象来实现数据存储，通过节点之间的地址值的指向来维系节点。底层内存不连续不需要扩容  查询效率低  增删效率较高   线程不安全的集合</p>
+<p><strong><em>Vector</em></strong></p>
+<p>最早的集合类</p>
+<p>底层通过数组实现，默认初始长度为10，底层根据三目运算来进行扩容，如果不给定增量的值每次扩容是在原容量的基础上增加一倍，如果给定增量的值就在原容器的基础上增加增量的值</p>
+<p>线程安全的集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Vector;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VectorDemo</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        <span class="comment">//创建集合对象</span></span><br><span class="line">        Vector&lt;String&gt; v = <span class="keyword">new</span> Vector&lt;&gt;(<span class="number">10</span>,<span class="number">5</span>);</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;<span class="number">21</span>;i++)&#123;</span><br><span class="line">            v.add(<span class="string">&quot;a&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//查看当前容量</span></span><br><span class="line">        System.out.println(v.capacity());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Stack(栈结构)</p>
+<p> 遵循后进先出的原则</p>
+<p>栈顶元素：最后一个存放的元素</p>
+<p>栈底元素：第一个存放的元素</p>
+<p>入栈/压栈：往栈中存放元素</p>
+<p>出栈/弹栈：从栈中获取元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StackDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建集合对象</span></span><br><span class="line">        Stack&lt;String&gt; stack=<span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">        <span class="comment">//入栈</span></span><br><span class="line">        stack.push(<span class="string">&quot;121&quot;</span>);</span><br><span class="line">        stack.push(<span class="string">&quot;12&quot;</span>);</span><br><span class="line">        stack.push(<span class="string">&quot;21&quot;</span>);</span><br><span class="line">        stack.push(<span class="string">&quot;0121&quot;</span>);</span><br><span class="line">        stack.push(<span class="string">&quot;1221&quot;</span>);</span><br><span class="line">        stack.push(<span class="string">&quot;12661&quot;</span>);</span><br><span class="line">        <span class="comment">//判断是否栈为空</span></span><br><span class="line">        System.out.println(stack.empty());</span><br><span class="line">        <span class="comment">//返回栈顶元素并且不删除元素</span></span><br><span class="line">        System.out.println(stack.peek());</span><br><span class="line">        <span class="comment">//返回栈顶元素并且删除元素</span></span><br><span class="line">        System.out.println(stack.pop());</span><br><span class="line">        <span class="comment">//c从栈顶往栈底来查找元素位置</span></span><br><span class="line">        System.out.println(stack.search(<span class="number">21</span>));</span><br><span class="line">        <span class="comment">//保证接口的特点 存放数据有序</span></span><br><span class="line">        System.out.pritln(stack);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Set </p>
+<p>无序 不能存储重复元素  不能通过下标来操作</p>
+<p>实现类： HashSet LinkedHashSet Treeset</p>
+<p><strong>HashSet</strong></p>
+</li>
+</ol>
+<p>底层通过HashMap实现数据存储（数组+链表） </p>
+<p>不能保证迭代顺序恒久不变 </p>
+<p>初始容量为16，扩容是在原来的基础上增加一倍，提供默认的加载因子为0.75 </p>
+<p>线程不安全集合 </p>
+<p>如果加载因子越大，扩容的时机越晚，容易导致某个链表上的节点数过多查询效率降低</p>
+<p>如果加载因子越小，扩容越频繁导致rehash越频繁，造成大量的空间在浪费降低内存使用率</p>
+<p>从jdk1.8开始如果某个链表中的长度超过了8个就可以扭转成二叉树来表示，可以提升查询效率</p>
+<p><strong>LinkedHashSet</strong></p>
+<p>底层是由LinkedHashMap来实现的 </p>
+<p>可以记录存储对象的位置来保证数据存放的顺序</p>
+<p><strong>TreeSet</strong></p>
+<p>可以对存储的内容进行默认的升序排序 </p>
+<p>先保证类实现Comparable接口产生的对象以及重写compareTo方法来指定排序规则，这样才能进行排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">package cn.tedu.collection.set;</span><br><span class="line">import java.util.TreeSet;</span><br><span class="line">public class TreeSetDemo &#123;</span><br><span class="line"> public static void main(String[] args) &#123;</span><br><span class="line"> &#x2F;&#x2F;创建集合对象</span><br><span class="line"> &#x2F;&#x2F;把存储的内容进行排序---升序</span><br><span class="line"> &#x2F;* TreeSet&lt;String&gt; t&#x3D;new TreeSet&lt;&gt;();</span><br><span class="line"> &#x2F;&#x2F;添加元素</span><br><span class="line"> t.add(&quot;abc&quot;);</span><br><span class="line"> t.add(&quot;bc&quot;);</span><br><span class="line"> t.add(&quot;ab&quot;);</span><br><span class="line"> t.add(&quot;ac&quot;);</span><br><span class="line"> t.add(&quot;1abc&quot;);</span><br><span class="line"> t.add(&quot;a3bc&quot;);</span><br><span class="line"> System.out.println(t);*&#x2F;</span><br><span class="line"> &#x2F;&#x2F;创建集合的对象</span><br><span class="line"> TreeSet&lt;Hero&gt; t&#x3D;new TreeSet&lt;&gt;();</span><br><span class="line"> t.add(new Hero(&quot;张飞&quot;,28,59));</span><br><span class="line">  t.add(new Hero(&quot;关羽&quot;,29,94));</span><br><span class="line"> t.add(new Hero(&quot;刘备&quot;,35,120));</span><br><span class="line"> t.add(new Hero(&quot;诸葛亮&quot;,25,99));</span><br><span class="line"> t.add(new Hero(&quot;赵云&quot;,24,97));</span><br><span class="line"> &#x2F;&#x2F;</span><br><span class="line"> for(Hero h:t)&#123;</span><br><span class="line"> System.out.println(h);</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Hero implements Comparable&lt;Hero&gt;&#123;</span><br><span class="line"> String name;</span><br><span class="line"> int age;</span><br><span class="line"> int score;&#x2F;&#x2F;代表分数</span><br><span class="line"> &#x2F;&#x2F;有参构造</span><br><span class="line"> public Hero(String name,int age,int score)&#123;</span><br><span class="line"> this.name&#x3D;name;</span><br><span class="line"> this.age&#x3D;age;</span><br><span class="line"> this.score&#x3D;score;</span><br><span class="line"> &#125;</span><br><span class="line"> &#x2F;&#x2F;重写toString方法</span><br><span class="line"> @Override</span><br><span class="line"> public String toString() &#123;</span><br><span class="line"> return &quot;Hero&#123;&quot; +</span><br><span class="line"> &quot;name&#x3D;&#39;&quot; + name + &#39;\&#39;&#39; +</span><br><span class="line"> &quot;, age&#x3D;&quot; + age +</span><br><span class="line"> &quot;, score&#x3D;&quot; + score +</span><br><span class="line"> &#39;&#125;&#39;;</span><br><span class="line"> &#125;</span><br><span class="line"> &#x2F;&#x2F;重写方法---指定排序规则</span><br><span class="line"> @Override</span><br><span class="line"> public int compareTo(Hero o) &#123;</span><br><span class="line"> &#x2F;&#x2F;指定以分数来排序</span><br><span class="line"> &#x2F;&#x2F;如果返回值是正数表面前面对象大于后面的对象</span><br><span class="line"> &#x2F;&#x2F;如果返回值是负数表面前面对象小于后面的对象</span><br><span class="line"> &#x2F;&#x2F;如果返回值是0表面前面对象内容等于后面的对象内容</span><br><span class="line"> &#x2F;&#x2F;return this.score-o.score;&#x2F;&#x2F;升序</span><br><span class="line"> return o.score-this.score;&#x2F;&#x2F;降序</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>Queue</strong>队列</p>
+<p>遵循先进先出（FIFO）的原则</p>
+<p> 队头元素：第一个存放的元素 </p>
+<p>队尾元素：最后一个存放的元素</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.collection.queue;</span><br><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.Queue;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QueueDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//创建队列对象</span></span><br><span class="line"> Queue&lt;String&gt; queue=<span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line"> <span class="comment">//获取队头元素并不删除</span></span><br><span class="line"> <span class="comment">//如果没有队头元素就会报错</span></span><br><span class="line"> <span class="comment">//System.out.println(queue.element());</span></span><br><span class="line"> <span class="comment">//获取队头元素并不删除</span></span><br><span class="line"> <span class="comment">//如果没有队头元素就会返回特殊值---null值</span></span><br><span class="line"> System.out.println(queue.peek());</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>迭代器</strong></p>
+<p>1.底层是通过指针的挪动来遍历数据 </p>
+<p>2.在遍历过程中不能直接删除原集合中的元素，但是可通过迭代器提供的remove方法来改变标记值间接删除原集合元素 3.iterator方法定义在Iterable接口中，调用这个方法返回迭代器Iterator接口 </p>
+<p>4.类实现Iterable接口产生的对象支持增强for循环—增强for循环底层根据迭代器来实现—增强for循环是jdk1.5新特性 </p>
+<p>5.增强for循环（比普通for循环增强的点是无论数据是否有下标都可以进行遍历）</p>
+<p> 6.Ierable是Collection的父接口，所有的Collection（集合）的实现类创建的对象都支持增强for循环（迭代遍历）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.collection.list;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IteratorDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//创建集合对象</span></span><br><span class="line"> List&lt;String&gt; list=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"> list.add(<span class="string">&quot;abc&quot;</span>);</span><br><span class="line"> list.add(<span class="string">&quot;ac&quot;</span>);</span><br><span class="line"> list.add(<span class="string">&quot;ab&quot;</span>);</span><br><span class="line"> list.add(<span class="string">&quot;bc&quot;</span>);</span><br><span class="line"> list.add(<span class="string">&quot;1abc&quot;</span>);</span><br><span class="line"> <span class="comment">//调用iterator方法返回对应的迭代器Iterator</span></span><br><span class="line"> <span class="comment">//集合对象内容会返回到迭代器的身上</span></span><br><span class="line"> Iterator&lt;String&gt; it = list.iterator();</span><br><span class="line"> <span class="comment">//通过循环实现---while</span></span><br><span class="line"> <span class="keyword">while</span> (it.hasNext())&#123;<span class="comment">//判断下一位是否有元素</span></span><br><span class="line"> <span class="comment">//返回下一个元素</span></span><br><span class="line"> String s = it.next();</span><br><span class="line"> System.out.println(s);</span><br><span class="line"> <span class="comment">//调用的是迭代器提供的remove方法</span></span><br><span class="line"> <span class="comment">//会把对应的标记改成false，java会默认把标记对应的原集合的元素来进行删除</span></span><br><span class="line"> <span class="comment">//it.remove();</span></span><br><span class="line"> <span class="comment">//集合提供的remove方法</span></span><br><span class="line"> <span class="comment">//会把原集合的敏内容直接删除但是会导致标记对应不到对应的元素内容就报错了</span></span><br><span class="line"> <span class="comment">//list.remove(s);</span></span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//</span></span><br><span class="line"> System.out.println(list);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/16/day20/">http://senye.ink/2021/07/16/day20/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/15/day19/" title="day19"><span>NextPost ></span><br><span class="nextTitle">day19</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%9B%86%E5%90%88-Collection"><span class="toc-number">1.</span> <span class="toc-text">集合 Collection</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

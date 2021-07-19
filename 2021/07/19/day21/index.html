@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day21 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day21</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-19</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="范型 映射 文件"> 范型 映射 文件</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h3><p>参数化类型，jdk1.5新特性</p>
+<p>现在常用的泛型写法：声明类&lt;引用类型&gt;名称=new 实际创建类&lt;&gt;();</p>
+<p>泛型可以指定为任意引用类型，当指定位具体的类型是后续就只能操作对应类型的对象—泛型的擦除（编译时期）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        List&lt;String&gt; list=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.add(<span class="string">&quot;112&quot;</span>);</span><br><span class="line">        list.add(<span class="string">&quot;4242&quot;</span>);</span><br><span class="line">        list.add(<span class="string">&quot;12&quot;</span>);</span><br><span class="line">        List&lt;Integer&gt; list1=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list1.add(<span class="number">1</span>);</span><br><span class="line">        list1.add(<span class="number">2</span>);</span><br><span class="line">        List&lt;Character&gt; list2=<span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list2.add(<span class="string">&#x27;s&#x27;</span>);</span><br><span class="line">        list2.add(<span class="string">&#x27;d&#x27;</span>);</span><br><span class="line">        m(list);<span class="comment">//调用方法</span></span><br><span class="line">        m(list1);</span><br><span class="line">        m(list2);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> <span class="keyword">void</span>  <span class="title">m</span><span class="params">(List&lt;? extends Object&gt; list )</span></span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (Object l:list)&#123;</span><br><span class="line">            System.out.println(l);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>泛型的上下限</strong>（不允许同时出现上下限）</p>
+<? extends Number>? 代表可以接收的类型---可以接受Number类以及Number的子类
+
+上限<? extends 类、接口>---可以接受类、接口以及子类、子接口
+
+下限<? super 类 接口>----可以接受类 接口以及父类  父接口
+
+### 映射
+
+可以存储多个一对具有映射关系的数据的容器
+
+k代表键的泛型，v代表的是值的范围
+
+键可以得到对应值，键不能重复但是值可以重复，一个映射容器可以由多个键和多个值来组成 键和值可以一起操作称之为键值对 java 提供一个entry类代表键值对，创建这个类的对象就是得到一个具体的键值对
+
+ Map<String,Integer> map= new HasMap<>();
+
+底层根据键来确定值的位置 
+
+因为键是无序的，所以键值对所在的位置也是无序的
+
+并且不能保证键值对的顺序恒久不变
+
+键不能重复 如果键重复 值没有重复  会把新的键对象舍弃掉，保留下来值 并进行覆盖 
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Collection;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestDemo1</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Map&lt;Integer,String &gt; map=<span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="number">12</span>,<span class="string">&quot;ds&quot;</span>);</span><br><span class="line">        map.put(<span class="number">2</span>,<span class="string">&quot;s&quot;</span>);</span><br><span class="line">        map.put(<span class="number">122</span>,<span class="string">&quot;jks&quot;</span>);</span><br><span class="line">       <span class="comment">// map.clear();</span></span><br><span class="line">        <span class="comment">//System.out.println(map);</span></span><br><span class="line">        <span class="comment">//判断映射中是否包含指定的键</span></span><br><span class="line">        System.out.println(map.containsKey(<span class="number">12</span>));</span><br><span class="line">        <span class="comment">//判断映射中是否包含指定的值</span></span><br><span class="line">        System.out.println(map.containsValue(<span class="string">&quot;q&quot;</span>));</span><br><span class="line">        <span class="comment">//把映射的集合放到Set集合中</span></span><br><span class="line">        Set&lt;Map.Entry&lt;Integer,String&gt;&gt; s=map.entrySet();</span><br><span class="line">        System.out.println(s);</span><br><span class="line">        System.out.println(map.get(<span class="number">12</span>));</span><br><span class="line">        System.out.println(map.size());</span><br><span class="line">        <span class="comment">//把映射中所有 的键存放到Set集合中</span></span><br><span class="line">        Set&lt;Integer&gt; se=map.keySet() ;</span><br><span class="line">        System.out.println(se);</span><br><span class="line">        map.remove(<span class="number">12</span>);</span><br><span class="line">        System.out.println(se);</span><br><span class="line">        <span class="comment">//返回映射过程中键值对的个数</span></span><br><span class="line">        System.out.println(map.size());</span><br><span class="line">        <span class="comment">//把映射中所有的值存放到Collection中</span></span><br><span class="line">        Collection&lt;String&gt; c = map.values();</span><br><span class="line">        System.out.println(c);</span><br><span class="line">        <span class="comment">//底层是根据键来确定存储位置</span></span><br><span class="line">        <span class="comment">//因为键是无序的所以键值对所在的位置也是无序的</span></span><br><span class="line">        <span class="comment">//并且不能保证键值对的顺序恒久不变</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+### 遍历映射
+
+1. 返回映射中所有的键，再有键来获取对应的值
+
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//遍历Set集合</span></span><br><span class="line">       Set&lt;Integer&gt; set=map.keySet();</span><br><span class="line">       <span class="keyword">for</span> (Integer i:set)&#123;</span><br><span class="line">           System.out.println(s+<span class="string">&quot;:&quot;</span>+map.get(i));</span><br><span class="line">       &#125;</span><br><span class="line">   </span><br></pre></td></tr></table></figure>
+
+
+
+2. 返回映射中所有的键值对
+
+   Map是映射的顶级接口
+
+   实现类：HasMap，Hashtable
+
+HashMap
+
+底层根据数组+链表来实现的数据存储
+
+通过键来确定键值对的存储位置
+
+键是无序的并且不能存储重复的键（如果遇到重复的键就会把新的键对象舍弃掉）
+
+键值对是无序的 不能存储重复键值对
+
+默认的初始容量是16，默认的加载因子为0.75，默认没错扩容是在原容量的基础上增加一倍
+
+**允许存储null和null值**
+
+**可以指定默认的初始容量是在这个 2的n次方到2的n次方+1**
+
+异步式线程不安全的映射
+
+Hashtable 
+
+最早的映射类
+
+不允许存储null键和null值
+
+默认的初始容量为11，默认的加载因子为0.75，默认每次扩容是在原来的基础上增加一倍并+1、
+
+指定初始容量多少底层真是容量就是多少
+
+同步是线程安全的映射
+
+映射是不是集合？一定不是！
+
+### File类
+
+代表文件或者文件夹的类
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//创建代表文件类的对象</span></span><br><span class="line">        <span class="comment">//创建对象时只是把路径信息放到对象身上并不检测路径信息是否存在</span></span><br><span class="line">        File file = <span class="keyword">new</span> File(<span class="string">&quot;D:\\a.txt&quot;</span>);</span><br><span class="line">        <span class="comment">//新建文件</span></span><br><span class="line">        <span class="keyword">boolean</span> b = file.createNewFile();</span><br><span class="line">        System.out.println(b);</span><br><span class="line">        <span class="comment">//创建新的文件夹</span></span><br><span class="line">        File file1 = <span class="keyword">new</span> File(<span class="string">&quot;D:\\a&quot;</span>);</span><br><span class="line">        <span class="keyword">boolean</span> c = file1.mkdirs();</span><br><span class="line">        System.out.println(b);</span><br><span class="line">        <span class="comment">//创建多级文件夹</span></span><br><span class="line">        File file2 = <span class="keyword">new</span> File(<span class="string">&quot;D:\\a\\b\\c&quot;</span>);</span><br><span class="line">        <span class="keyword">boolean</span> d = file2.mkdirs();</span><br><span class="line">        System.out.println();</span><br><span class="line">        <span class="comment">//删除文件 无论是否有内容</span></span><br><span class="line">        <span class="comment">//只能删除没有内容的文件夹</span></span><br><span class="line">        <span class="comment">//不进回收站 永久删除</span></span><br><span class="line">        <span class="keyword">boolean</span> k = file.delete();</span><br><span class="line">        System.out.println(k);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileDemo2</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建一个代表文件类的对象</span></span><br><span class="line">        File file=<span class="keyword">new</span> File(<span class="string">&quot;D\\&quot;</span>);</span><br><span class="line">        <span class="comment">//把当前文件夹下所有的信息当作成file类的对象存储在数组中并进行返回</span></span><br><span class="line">        File[] fs=file.listFiles();</span><br><span class="line">        <span class="comment">//遍历数组</span></span><br><span class="line">        <span class="comment">/*for (File f:fs)&#123;</span></span><br><span class="line"><span class="comment">            System.out.println(f);//每个数组元素代表一个file类的对象</span></span><br><span class="line"><span class="comment">        &#125;*/</span></span><br><span class="line">        <span class="comment">//判断file类的对象是否为文件夹</span></span><br><span class="line">        System.out.println(file.isDirectory());</span><br><span class="line">        <span class="comment">//判断file类的对象是否为文件</span></span><br><span class="line">        System.out.println(file.isFile());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileDemo3</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建文件对象</span></span><br><span class="line">        File file=<span class="keyword">new</span> File(<span class="string">&quot;&quot;</span>);</span><br><span class="line">        <span class="comment">//返回文件名称以及后缀</span></span><br><span class="line">        System.out.println(file.getName());</span><br><span class="line">        <span class="comment">//返回文件的当前文件夹的路径信息 getName+getParent 就是文件的总路径</span></span><br><span class="line">        System.out.println(file.getParent());</span><br><span class="line">        <span class="comment">//返回全路径信息</span></span><br><span class="line">        System.out.println(file.getPath());</span><br><span class="line">        <span class="comment">//返回上一次的修改时间</span></span><br><span class="line">        System.out.println(file.lastModified());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileFilter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileDemo4</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建代表文件类对象</span></span><br><span class="line">        File file=<span class="keyword">new</span> File(<span class="string">&quot;D:\\a.txt&quot;</span>);</span><br><span class="line">        <span class="comment">//重命名 --- 剪切实现的</span></span><br><span class="line">        <span class="keyword">boolean</span> b =file.renameTo(<span class="keyword">new</span> File(<span class="string">&quot;D:\\b.txt&quot;</span>));</span><br><span class="line">        System.out.println(b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</String,Integer></article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/19/day21/">http://senye.ink/2021/07/19/day21/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/16/day20/" title="day20"><span>NextPost ></span><br><span class="nextTitle">day20</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%9B%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">泛型</span></a></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

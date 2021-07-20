@@ -6,7 +6,7 @@
   <link href="http://senye.ink/atom.xml" rel="self"/>
   
   <link href="http://senye.ink/"/>
-  <updated>2021-07-19T12:56:46.835Z</updated>
+  <updated>2021-07-20T13:06:17.933Z</updated>
   <id>http://senye.ink/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>day22</title>
+    <link href="http://senye.ink/2021/07/20/day22/"/>
+    <id>http://senye.ink/2021/07/20/day22/</id>
+    <published>2021-07-20T13:04:28.079Z</published>
+    <updated>2021-07-20T13:06:17.933Z</updated>
+    
+    <content type="html"><![CDATA[<p>一套用于<strong>数据传输</strong>的机制</p><p>根据传输的方向（根据内存当做参照物）：输入流—从外部往内存来传输数据   输出流—从内存往外来传输数据  </p><p>根据数据表现形式：字节流—底层以字节流来传输数据  字符流—底层以字符来传输数据</p><p>四大基本流   对应的四个类都是抽象类</p><table><thead><tr><th></th><th>输出流</th><th>输入流</th></tr></thead><tbody><tr><td>字符流</td><td>字符输出流 Writer</td><td>字符输入流 Reader</td></tr><tr><td>字节流</td><td>字节输出流OutputStream</td><td>字节输入流 InputStream</td></tr></tbody></table><p>传输场景 （数据存放 、获取的位置） ：硬盘 、内存、网络、外设</p><p>硬盘 </p><p>   字符流</p><p>​      往一个txt文件中写入内容   文件   输出流   FileWeiter （文件字符输出流）</p><p>​     从一个TXT文件中读取内容  文件  输入流  FileReader（文件字符输入流）</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.io.FileReader;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FileReaderDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//创建一个文件字符输入流对象</span></span><br><span class="line">        <span class="comment">//底层没有缓存区</span></span><br><span class="line">        FileReader reader=<span class="keyword">new</span> FileReader(<span class="string">&quot;D:\\as.txt&quot;</span>);</span><br><span class="line">        <span class="comment">//读取数据</span></span><br><span class="line">        <span class="comment">//read无参方法返回的是读取到的一个字符对应的编码值</span></span><br><span class="line"><span class="comment">/*        System.out.println(reader.read());</span></span><br><span class="line"><span class="comment">        System.out.println(reader.read());</span></span><br><span class="line"><span class="comment">        //读取结束的条件是-1</span></span><br><span class="line"><span class="comment">        System.out.println(reader.read());*/</span></span><br><span class="line">        <span class="comment">//通过循环来实现</span></span><br><span class="line">       <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((i=reader.read())!=-<span class="number">1</span>)&#123;</span><br><span class="line">            System.out.println(i);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//关流</span></span><br><span class="line">        reader.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>  字节流</p><p>​       往一个TXT文件中写入内容  文件  输出流  FileOutputStream</p><p>​      往一个TXT文件中读取内容   文件  输入流  FileOutputStream</p><p>io流的异常捕获</p><ol><li><p>在try块外声明流对象并赋值为null，真正的初始化在try块里</p></li><li><p>保证流对象只有初始化成功才能进行正常的关流</p></li><li><p>无论关流成功与否 都要把流对象置为null 值 等待系统进行垃圾回收</p></li><li><p>close 关流中包含自动冲刷 如果关流失败发生在自动冲刷之前就有可能导致数据滞留在缓冲区 需要手动冲刷</p></li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">      <span class="comment">//1.声明一个成员变量----流对象 声明的流对象初始值为null</span></span><br><span class="line">      FileWriter writer=<span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="comment">//真正的初始化在try块里</span></span><br><span class="line">         writer=<span class="keyword">new</span> FileWriter(<span class="string">&quot;D:\\s.txt&quot;</span>);</span><br><span class="line">         <span class="comment">//传输数据</span></span><br><span class="line">          writer.write(<span class="string">&quot;你想屁吃&quot;</span>);</span><br><span class="line">          <span class="comment">//4.防止close出现异常在自动冲刷之前---手动冲刷</span></span><br><span class="line">          writer.flush();</span><br><span class="line">      &#125;<span class="keyword">catch</span> (IOException e )&#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">      &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">          <span class="comment">//2.保证流对象初始化成功才能关流（流对象的值不为null）</span></span><br><span class="line">          <span class="keyword">if</span>(writer!=<span class="keyword">null</span>)&#123;</span><br><span class="line">              <span class="keyword">try</span>&#123;</span><br><span class="line">                  writer.close();</span><br><span class="line">              &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">                  e.printStackTrace();</span><br><span class="line">              &#125;<span class="keyword">finally</span> &#123;</span><br><span class="line">                  <span class="comment">//3.无论close方法是否执行成功都需要流对象置为null</span></span><br><span class="line">                  writer=<span class="keyword">null</span>;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;一套用于&lt;strong&gt;数据传输&lt;/strong&gt;的机制&lt;/p&gt;
+&lt;p&gt;根据传输的方向（根据内存当做参照物）：输入流—从外部往内存来传输数据   输出流—从内存往外来传输数据  &lt;/p&gt;
+&lt;p&gt;根据数据表现形式：字节流—底层以字节流来传输数据  字符流—底层以字符来传输数据</summary>
+      
+    
+    
+    
+    
+    <category term="io流" scheme="http://senye.ink/tags/io%E6%B5%81/"/>
+    
+  </entry>
   
   <entry>
     <title>day21</title>
@@ -456,31 +480,6 @@
       
       
     <summary type="html">&lt;p&gt;随手记一下下 嘻嘻 今天是开始学习的第三天 逐渐适应了这里的生活方式 早起 挤公交 吃早饭 上课 吃午饭 上课 吃完饭 自习 从7点到9.40 可是安排的满满当当的了 刚想说这里原来有台电脑能自己看网课刷视频了呢 今天下午倒好 直接给整的限流了 我日 这又得拿着小手机去看视</summary>
-      
-    
-    
-    
-    
-    <category term="关于实训" scheme="http://senye.ink/tags/%E5%85%B3%E4%BA%8E%E5%AE%9E%E8%AE%AD/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>day02</title>
-    <link href="http://senye.ink/2021/06/22/day02/"/>
-    <id>http://senye.ink/2021/06/22/day02/</id>
-    <published>2021-06-22T13:39:32.763Z</published>
-    <updated>2021-06-22T13:40:26.712Z</updated>
-    
-    <content type="html"><![CDATA[<p>53个关键字 全部是小写<br>   const goto 原来不是叫保留字 现在是了在新的jdk版本中<br>标识符 —-在java中可以自定义的名称<br> 组成范围 </p><ol><li>各国常见文字<ol start="2"><li>数字 0-9 </li></ol></li><li>特殊的符号  _和 $（慎用—内部类会使用）<br>命名规则<br>1.不能出现关键字<br>2.不能以数字开头<br>在组成范围内的内容且遵守命名规则的是符合ja0 va语法的标识符（合法）<br>驼峰命令法（在标识符合法的基础上）<br>1.类名/接口名——XxxYyyZzz<br>2.方法名/变量名——-xxxYyyZzz<br>3.包名—— 包是用来区分同名类的 （单级文件夹—-xxx cn。   多级文件夹——xxx.yyy.zzz。  tedu.cn.day01<br>4.见名知意<br>注释 /*   */ 多行注释  单行注释 //<br>文档注释 /** */ 可以通过javadoc命令生成解释说明的文档<br>常量<br>程序运行过程中不发生改变的值<br>分类<br> 字面量常值      整数常量 1000 1839<pre><code>                小数常量 1.1 3.3                 字符串常量 “12” “guii”                字符常量“u”                布尔常量 true false                 空常量 null </code></pre>整数表示方式<br>二进制 由0和1表示 以0b开头的数据就是二进制数据 0b 1000<br>八进制  由0-7表示 以0开头的数据就是八进制数据<br>十进制<br>十六进制<br>其他进制转换成十进制<br>总结规律：项乘以基数为底的权次幂之和<br>十进制转换为其他进制<br>总结规律<br>除基取余 直到商为0 余数翻转<br>有符号的数<br>  计算机上所有的数据都在底层都是以二进制数据的补码形式来表示的<br>数据类型 ：限制数据变化范围<br>变量名：区分其他变量<br>初始化：给变量赋值</li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;53个关键字 全部是小写&lt;br&gt;   const goto 原来不是叫保留字 现在是了在新的jdk版本中&lt;br&gt;标识符 —-在java中可以自定义的名称&lt;br&gt; 组成范围 &lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;各国常见文字&lt;ol start=&quot;2&quot;&gt;
-&lt;li&gt;数字 0-9 &lt;/li&gt;</summary>
       
     
     

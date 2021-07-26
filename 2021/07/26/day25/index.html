@@ -1,0 +1,205 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title"></h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-26</span></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>   <strong>优先级（当作权重来尽量避免死锁的发生）</strong></p>
+<p>​        优先级1-10，优先级越大的线程对象理论上抢占到资源的概率越大</p>
+<p>​        如果优先级差值大于5 理论上抢占资源的概率会稍大一些、</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.thread;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PriorityDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//创建线程对象</span></span><br><span class="line"> Thread t1=<span class="keyword">new</span> Thread(<span class="keyword">new</span> PDemo(),<span class="string">&quot;A&quot;</span>);</span><br><span class="line"> Thread t2=<span class="keyword">new</span> Thread(<span class="keyword">new</span> PDemo(),<span class="string">&quot;B&quot;</span>);</span><br><span class="line"> <span class="comment">//设置优先级</span></span><br><span class="line"> t1.setPriority(<span class="number">1</span>);</span><br><span class="line"> t2.setPriority(<span class="number">10</span>);</span><br><span class="line"> <span class="comment">//开启线程</span></span><br><span class="line"> t1.start();</span><br><span class="line"> t2.start();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//代表线程任务信息</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PDemo</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;=<span class="number">30</span>;i++)&#123;</span><br><span class="line"> System.out.println(Thread.currentThread().getName()+<span class="string">&quot;:&quot;</span>+i);</span><br><span class="line"> <span class="comment">//休眠</span></span><br><span class="line"> <span class="keyword">try</span> &#123;</span><br><span class="line"> Thread.sleep(<span class="number">10</span>);</span><br><span class="line"> &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line"> e.printStackTrace();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>  <strong>守护线程</strong></p>
+<p>​        如果被守护线程结束，随之守护线程也结束</p>
+<p>​        如果不是手动设置成的守护线程就是被守护线程</p>
+<p>​        被守护线程可以有多个，每个被守护线程结束所有守护线程才结束</p>
+<p>​        内存里有最大的守护线程—GC</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.thread;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DeamonDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//创建线程对象</span></span><br><span class="line"> Thread t1=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Soilder(),<span class="string">&quot;超级兵&quot;</span>);</span><br><span class="line"> Thread t2=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Soilder(),<span class="string">&quot;宫本&quot;</span>);</span><br><span class="line"> Thread t3=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Soilder(),<span class="string">&quot;炮车&quot;</span>);</span><br><span class="line"> Thread t4=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Soilder(),<span class="string">&quot;花木兰&quot;</span>);</span><br><span class="line"> <span class="comment">//设置守护线程</span></span><br><span class="line"> t1.setDaemon(<span class="keyword">true</span>);</span><br><span class="line"> t2.setDaemon(<span class="keyword">true</span>);</span><br><span class="line"> t3.setDaemon(<span class="keyword">true</span>);</span><br><span class="line"> t4.setDaemon(<span class="keyword">true</span>);</span><br><span class="line"> <span class="comment">//开启线程</span></span><br><span class="line"> t1.start();</span><br><span class="line"> t2.start();</span><br><span class="line"> t3.start();</span><br><span class="line"> t4.start();</span><br><span class="line"> <span class="comment">//主线程---BOSS(被守护线程)</span></span><br><span class="line"> <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">10</span>;i&gt;=<span class="number">0</span>;i--)&#123;</span><br><span class="line"> System.out.println(<span class="string">&quot;BOOS掉了一滴血还剩&quot;</span> + i + <span class="string">&quot;滴血。。。&quot;</span>);</span><br><span class="line"> <span class="comment">//休眠</span></span><br><span class="line"> <span class="keyword">try</span> &#123;</span><br><span class="line"> Thread.sleep(<span class="number">5</span>);</span><br><span class="line"> &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line"> e.printStackTrace();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//定义类代表小兵</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Soilder</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">20</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line"> <span class="comment">//描述小兵掉血过程</span></span><br><span class="line"> System.out.println(Thread.currentThread().getName() + <span class="string">&quot;掉了一滴血还剩&quot;</span> + i + <span class="string">&quot;滴血。。。&quot;</span>);</span><br><span class="line"> <span class="comment">//休眠</span></span><br><span class="line"> <span class="keyword">try</span> &#123;</span><br><span class="line"> Thread.sleep(<span class="number">10</span>);</span><br><span class="line"> &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line"> e.printStackTrace();</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="网络编程（套接字）"><a href="#网络编程（套接字）" class="headerlink" title="网络编程（套接字）"></a>网络编程（套接字）</h3><p>​        根据网络来进行数据传输</p>
+<p>  物理层、数据链路层、网络层、传输层（协议UDP,TCP）、会话层、表示层、应用层 </p>
+<p>  ip地址—确定网络中主机位置   IPv4 由四位0-255的数字组合而成</p>
+<p> 域名 —-不会重复，可以映射成对应的ip</p>
+<p> 端口：计算机和外界进行数据交互的媒介  端口号（0——65535） 0-1024之间的端口基本已经被系统提前占用，推荐只用1024后面的端口号</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.net.address;</span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InetSocketAddressDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> <span class="comment">//创建对象---指定IP地址和端口号</span></span><br><span class="line"> <span class="comment">//localhost解析成的IP是127.0.0.1,127.0.0.1永远指向本地</span></span><br><span class="line"> InetSocketAddress isa=<span class="keyword">new</span> InetSocketAddress(<span class="string">&quot;localhost&quot;</span>,<span class="number">8090</span>);</span><br><span class="line"> <span class="comment">//获取IP地址</span></span><br><span class="line"> System.out.println(isa.getAddress());</span><br><span class="line"> <span class="comment">//获取主机名</span></span><br><span class="line"> System.out.println(isa.getHostName());</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>UDP</p>
+<p>发送端</p>
+<ol>
+<li><p>创建UDP发送端对象</p>
+</li>
+<li><p>创建数据包，准备数据并指定ip和端口号</p>
+</li>
+<li><p>发送数据包</p>
+</li>
+<li><p>关流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.net.udp;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramPacket;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.SocketException;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPSender</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"> <span class="comment">//创建UDP发送端的对象</span></span><br><span class="line"> DatagramSocket ds=<span class="keyword">new</span> DatagramSocket();</span><br><span class="line"> <span class="comment">//创建数据包对象---来发送数据</span></span><br><span class="line"> <span class="comment">//第一个参数---字节数组---准备的要传输的数据</span></span><br><span class="line"> <span class="comment">//第二个参数---长度---真实要传输的数据的长度（小于等于数据长度）</span></span><br><span class="line"> <span class="comment">//第三个参数---对象---指定IP和端口号</span></span><br><span class="line"> DatagramPacket dp=<span class="keyword">new</span> DatagramPacket(<span class="string">&quot;你好&quot;</span>.getBytes(),</span><br><span class="line"> <span class="string">&quot;你好&quot;</span>.getBytes().length,</span><br><span class="line"> <span class="keyword">new</span> InetSocketAddress(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="number">8091</span>));</span><br><span class="line"> <span class="comment">//发送数据包</span></span><br><span class="line"> ds.send(dp);</span><br><span class="line"> <span class="comment">//关流</span></span><br><span class="line"> ds.close();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<p>接收端</p>
+<ol>
+<li><p>创建UDP接受对象并且监听端口号</p>
+</li>
+<li><p>创建数据包来接受数据</p>
+</li>
+<li><p>接受数据</p>
+</li>
+<li><p>关流</p>
+</li>
+<li><p>解析数据包里的数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.net.udp;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramPacket;</span><br><span class="line"><span class="keyword">import</span> java.net.DatagramSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.SocketException;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UDPReceiver</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"> <span class="comment">//创建UDP接收端对象---监听端口号</span></span><br><span class="line"> DatagramSocket ds=<span class="keyword">new</span> DatagramSocket(<span class="number">8091</span>);</span><br><span class="line"> <span class="comment">//创建数据包对象来接收数据</span></span><br><span class="line"> <span class="comment">//第一个参数代表新建字节数组来接收传过来的字节数据</span></span><br><span class="line"> <span class="comment">//第二个参数就是指定新建的字节数组可以接收多少内容</span></span><br><span class="line"> DatagramPacket dp=<span class="keyword">new</span> DatagramPacket(<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10</span>],<span class="number">10</span>);</span><br><span class="line"> <span class="comment">//接收数据</span></span><br><span class="line"> ds.receive(dp);<span class="comment">//让线程对象发生阻塞</span></span><br><span class="line"> <span class="comment">//关流</span></span><br><span class="line"> ds.close();</span><br><span class="line"> <span class="comment">//解析数据</span></span><br><span class="line"> System.out.println(dp.getAddress());<span class="comment">//获取IP</span></span><br><span class="line"> <span class="comment">//getData()返回接收的数据，getlength()返回接收数据的长度</span></span><br><span class="line"> System.out.println(<span class="keyword">new</span> String(dp.getData(),<span class="number">0</span>,dp.getLength()));</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</li>
+</ol>
+<p>TCP</p>
+<p>​     底层基于流</p>
+<p>​     传输需要建立连接（三次握手），传输过程安全，但是传输效率较低</p>
+<p>​    底层是根据字节流来进行数据传输的 （理论上不限制传输数据的大小）</p>
+<p>​    适用场景：聊天、文件上传和下载 等等</p>
+<p>​     Socket,ServerScoket</p>
+<p>客户端</p>
+<ol>
+<li><p>创建TCP客户端对象</p>
+</li>
+<li><p>发起连接</p>
+</li>
+<li><p>获取自带的字节流</p>
+</li>
+<li><p>写出数据</p>
+</li>
+<li><p>通知服务器端数据已经写出完毕</p>
+</li>
+<li><p>关流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.net.tcp;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TCPClientDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"> <span class="comment">//创建TCP客户端对象</span></span><br><span class="line"> Socket s=<span class="keyword">new</span> Socket();</span><br><span class="line"> <span class="comment">//发起连接</span></span><br><span class="line"> s.connect(<span class="keyword">new</span> InetSocketAddress(<span class="string">&quot;127.0.0.1&quot;</span>,<span class="number">9098</span>));<span class="comment">//让线程对象产生阻塞</span></span><br><span class="line"> <span class="comment">//获取自带的字节输出流</span></span><br><span class="line"> <span class="comment">//不需要指定路径信息默认写到服务器端</span></span><br><span class="line"> OutputStream os = s.getOutputStream();</span><br><span class="line"> <span class="comment">//写出数据</span></span><br><span class="line"> os.write(<span class="string">&quot;你好！！！&quot;</span>.getBytes());</span><br><span class="line"> <span class="comment">//通知服务器端数据已经发送完毕(关闭字节输出流的通道)</span></span><br><span class="line"> s.shutdownOutput();</span><br><span class="line"> <span class="comment">//读取服务器端发送的数据</span></span><br><span class="line"> <span class="comment">//获取自带字节输入流</span></span><br><span class="line"> InputStream is = s.getInputStream();</span><br><span class="line"> <span class="comment">//读取数据</span></span><br><span class="line"> <span class="keyword">byte</span>[] bs=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">100</span>];</span><br><span class="line"> <span class="keyword">int</span> len=-<span class="number">1</span>;</span><br><span class="line"> <span class="keyword">while</span> ((len=is.read(bs))!=-<span class="number">1</span>)&#123;</span><br><span class="line"> System.out.println(<span class="keyword">new</span> String(bs,<span class="number">0</span>,len));</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//通知服务器端数据已经接收完毕</span></span><br><span class="line"> s.shutdownInput();</span><br><span class="line"> <span class="comment">//关流</span></span><br><span class="line"> s.close();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<p>服务器端</p>
+<ol>
+<li><p>创建TCP服务器端对象并且监听端口号</p>
+</li>
+<li><p>接受连接</p>
+</li>
+<li><p>获取自带的字节输入流</p>
+</li>
+<li><p>读取数据</p>
+</li>
+<li><p>通知客户端数据已经接受完毕</p>
+</li>
+<li><p>关流</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> cn.tedu.net.tcp;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.OutputStream;</span><br><span class="line"><span class="keyword">import</span> java.net.ServerSocket;</span><br><span class="line"><span class="keyword">import</span> java.net.Socket;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TCPServerDemo</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"> <span class="comment">//创建TCP服务器端的对象---监听端口号</span></span><br><span class="line"> ServerSocket ss=<span class="keyword">new</span> ServerSocket(<span class="number">9098</span>);</span><br><span class="line"><span class="comment">//接收连接</span></span><br><span class="line"> Socket s = ss.accept();<span class="comment">//返回Socket类型的对象才能获取自带的字节流</span></span><br><span class="line"> <span class="comment">//让线程对象产生阻塞</span></span><br><span class="line"> <span class="comment">//获取自带的字节输入流</span></span><br><span class="line"> InputStream is = s.getInputStream();</span><br><span class="line"> <span class="comment">//读数据</span></span><br><span class="line"> <span class="keyword">byte</span>[] bs=<span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">100</span>];</span><br><span class="line"> <span class="keyword">int</span> len=<span class="number">1</span>-<span class="number">1</span>;</span><br><span class="line"> <span class="keyword">while</span> ((len=is.read(bs))!=-<span class="number">1</span>)&#123;<span class="comment">//让线程对象产生阻塞</span></span><br><span class="line"> System.out.println(<span class="keyword">new</span> String(bs,<span class="number">0</span>,len));</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">//通知客户端数据已经读取完毕(关闭自带的字节输入流)</span></span><br><span class="line"> s.shutdownInput();</span><br><span class="line"> <span class="comment">//往客户端发送数据</span></span><br><span class="line"> <span class="comment">/*//获取自带字节输出流（默认往客户端来写出数据）</span></span><br><span class="line"><span class="comment"> OutputStream os = s.getOutputStream();</span></span><br><span class="line"><span class="comment"> //写出数据</span></span><br><span class="line"><span class="comment"> os.write(&quot;你也好！！！&quot;.getBytes());</span></span><br><span class="line"><span class="comment"> //通知客户端数据已经发送完毕</span></span><br><span class="line"><span class="comment"> s.shutdownOutput();*/</span></span><br><span class="line"> <span class="comment">//关流</span></span><br><span class="line"> s.close();</span><br><span class="line"> ss.close();</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<p>让线程对象产生阻塞的方法：receive()、connect()、accept()、read()、write()</p>
+<p>​        </p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/26/day25/">http://senye.ink/2021/07/26/day25/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/26/day26/" title=""><span>NextPost ></span><br><span class="nextTitle">[Untitled Post]</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%EF%BC%88%E5%A5%97%E6%8E%A5%E5%AD%97%EF%BC%89"><span class="toc-number">1.1.</span> <span class="toc-text">网络编程（套接字）</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>

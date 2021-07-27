@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><meta name="author" content="zhangsen"><meta name="renderer" content="webkit"><meta name="copyright" content="zhangsen"><meta name="keywords" content="sen"><meta name="description" content=""><meta name="Cache-Control" content="no-cache"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>day27 · Mr.Sen's Blog</title><link rel="stylesheet" href="/css/style.css?v=2018.7.9"><link rel="stylesheet" href="/css/animation.css?v=2018.7.9"><link rel="icon" href="/img/assets/favicon.ico"><link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css?version=1.5.6"><!-- scripts--><script>(function( w ){
+  "use strict";
+  // rel=preload support test
+  if( !w.loadCSS ){
+    w.loadCSS = function(){};
+  }
+  // define on the loadCSS obj
+  var rp = loadCSS.relpreload = {};
+  // rel=preload feature support test
+  // runs once and returns a function for compat purposes
+  rp.support = (function(){
+    var ret;
+    try {
+      ret = w.document.createElement( "link" ).relList.supports( "preload" );
+    } catch (e) {
+      ret = false;
+    }
+    return function(){
+      return ret;
+    };
+  })();
+
+  // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+  // then change that media back to its intended value on load
+  rp.bindMediaToggle = function( link ){
+    // remember existing media attr for ultimate state, or default to 'all'
+    var finalMedia = link.media || "all";
+
+    function enableStylesheet(){
+      link.media = finalMedia;
+    }
+
+    // bind load handlers to enable media
+    if( link.addEventListener ){
+      link.addEventListener( "load", enableStylesheet );
+    } else if( link.attachEvent ){
+      link.attachEvent( "onload", enableStylesheet );
+    }
+
+    // Set rel and non-applicable media type to start an async request
+    // note: timeout allows this to happen async to let rendering continue in IE
+    setTimeout(function(){
+      link.rel = "stylesheet";
+      link.media = "only x";
+    });
+    // also enable media after 3 seconds,
+    // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+    setTimeout( enableStylesheet, 3000 );
+  };
+
+  // loop through link elements in DOM
+  rp.poly = function(){
+    // double check this to prevent external calls from running
+    if( rp.support() ){
+      return;
+    }
+    var links = w.document.getElementsByTagName( "link" );
+    for( var i = 0; i < links.length; i++ ){
+      var link = links[ i ];
+      // qualify links to those with rel=preload and as=style attrs
+      if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+        // prevent rerunning on link
+        link.setAttribute( "data-loadcss", true );
+        // bind listeners to toggle media back
+        rp.bindMediaToggle( link );
+      }
+    }
+  };
+
+  // if unsupported, run the polyfill
+  if( !rp.support() ){
+    // run once at least
+    rp.poly();
+
+    // rerun poly on an interval until onload
+    var run = w.setInterval( rp.poly, 500 );
+    if( w.addEventListener ){
+      w.addEventListener( "load", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    } else if( w.attachEvent ){
+      w.attachEvent( "onload", function(){
+        rp.poly();
+        w.clearInterval( run );
+      } );
+    }
+  }
+
+
+  // commonjs
+  if( typeof exports !== "undefined" ){
+    exports.loadCSS = loadCSS;
+  }
+  else {
+    w.loadCSS = loadCSS;
+  }
+}( typeof global !== "undefined" ? global : this ) );</script><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" defer></script><script src="/js/main.js?v=2018.7.9" defer></script><!-- fancybox--><link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'"><script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" defer></script><!-- busuanzi--><script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta name="generator" content="Hexo 5.2.0"><link rel="alternate" href="/atom.xml" title="sen" type="application/atom+xml">
+</head><body><section class="profile-close" id="cxo-profile"><div class="profile-avatar"><i class="fa fa-caret-left"></i><img src="/img/assets/cat.png"></div><!--.profile-saying
+  i.fa.fa-comment
+  .saying--><div class="cxo-profile-inner"><div class="profile-name">zhangsen</div><div class="profile-signature">ai xiao ye</div><div class="read-progress"></div></div></section><header id="cxo-intro" style="height: 70vh;background-image: url(/img/intro/index-bg.png);"><nav id="cxo-intro-nav"><section><div class="intro-nav-title"><a href="/">Mr.Sen's Blog</a></div><div class="intro-nav-label-box"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div><i class="fa fa-bars intro-nav-menu"><div class="intro-nav-drop"><a href="/">Home</a><a href="/about/">About</a><a href="/archives/">Archives</a><a href="/tags/">Tags</a></div></i><div class="clear"></div></section></nav><h1 class="post-title">day27</h1><div class="post-intros"><div class="post-intro-meta"><span class="post-intro-time"><i class="post-intro-calendar fa fa-calendar"></i><span>2021-07-27</span></span><span class="post-intro-tags"><a class="intro-tag fa fa-tag" href="javascript:void(0)" date-tags="单例设计模式 数据库"> 单例设计模式 数据库</a></span></div></div></header><article class="cxo-up" id="cxo-content-outer"><section id="cxo-content-inner"><article class="article-entry" id="post"><h3 id="单例设计模式"><a href="#单例设计模式" class="headerlink" title="单例设计模式"></a>单例设计模式</h3><p>   保证类产生单个实例对象</p>
+<p>   饿汉式：优点是没有线程安全问题，缺点是无论是否需要对象都会创建</p>
+<p>  懒汉式：优点是需要创建对象时才创建，缺点是线程不安全</p>
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><ol>
+<li><p>mysql 数据库使用</p>
+<p> a.登录数据库、</p>
+<p>cmd窗口中输入：mysql -uroot -p123456   账号和密码 回车</p>
+<p>b.退出数据库</p>
+<p>快捷点：ctrl+c</p>
+<p>指令：exit； quit；</p>
+</li>
+<li><p>MySQL数据库服务器，数据库和表的关系<br>  所谓安装数据库服务器，只是在机器上咋黄了一个数据库管理程序，这个管理程序可以管理多个数据库，一般开人员会针对每一个应用创建一个数据库。<br>  为保存应用中的实体数据，一般会在数据库中创建多个表，以保存程序中实体的数据。</p>
+</li>
+<li><p>SQL语言<br>  Structured Query language 结构化查询语言<br>  非过程性语言<br>  美国国家标准局（ANSI）与国际标准化组织（ISO）已经制定了SQL标准<br>  为加强SQL的语言能力，各厂商增强了过程性语言的特征</p>
+<pre><code>  如Oracle的PL、SQL过程性的处理能力
+  SQL Server Sybase的T—SQL</code></pre>
+<p>  SQL是用来存取关系数据库的语言，具有查询，操纵，定义和控制关系型数据库的四方面功能</p>
+</li>
+</ol>
+<p>查看当前数据库的字符接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like %character%;</span><br></pre></td></tr></table></figure>
+
+<p>1.1 创建数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">create database mydb1;&#x2F;&#x2F;创建数据库</span><br><span class="line">create database mydb2 set character utf8;创建数据库并且使用utf-8字符集</span><br><span class="line">create database mydb3 chacacter set utf8 collate utf8_bin ;创建utf-8字符集 并校对规则的数据库</span><br></pre></td></tr></table></figure>
+
+<p>​       </p>
+<p>1.2查看所有的数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show databases;</span><br></pre></td></tr></table></figure>
+
+<p>1.3 查看数据库创建语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show create datdabase mydb2;</span><br></pre></td></tr></table></figure>
+
+<p>1.4删除数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drop database mydb3;</span><br></pre></td></tr></table></figure>
+
+<p>1.5修改数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter database mydb1</span><br></pre></td></tr></table></figure>
+
+<p>1.6选择数据库</p>
+<p>​      必须先选择数据库再去操作表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use mydb1;</span><br></pre></td></tr></table></figure>
+
+<p>1.7查看当前选择的数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select database();</span><br></pre></td></tr></table></figure>
+
+<p>2.1 创建表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">create table user ( id int, name char(10),password char(20),birthday date ); </span><br><span class="line">create table table_name(</span><br><span class="line">field1 datatype,</span><br><span class="line">field2 datatype,</span><br><span class="line">field3 datatype</span><br><span class="line">);[character set 字符集] [collate] 校对规则、</span><br><span class="line">field：指定类名   datatype：指定类类型</span><br></pre></td></tr></table></figure>
+
+<p>常用的数据类型：</p>
+<p>​     字符串型 varchar char 0-255</p>
+<p>​    char（20）  占据存储的空间一定。由于存储的数据长度是一定的，在读取数据时，也会读取固定的长度，无需判断数据的长度，所以读取速度最快</p>
+<p>   varchar（20） 占据存储空间是变化的，存储数据的长度是变化的，所以需要先判断数据的长度，再去读取，相对char来说，varchar读取的效率稍低</p>
+<p>如果有限考虑读取速度的话，可以将字段设置为char类型，如果有限考虑存储空间，可以将字段设置为varchar类型</p>
+<p>大数据类型： blob text</p>
+<p>数值型：tinyint smallint int bigint float double</p>
+<p>逻辑型：bit 1/0</p>
+<p>日期型：date time datetime timestamp</p>
+<p>例 创建一个员工表employee</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">create table employee(</span><br><span class="line">id int primary key auto_increment,</span><br><span class="line">name varchar(22),</span><br><span class="line">gender varchar(20),</span><br><span class="line">birthday daye,</span><br><span class="line">entry_data date,</span><br><span class="line">job varchar(20),</span><br><span class="line">salary double,</span><br><span class="line">resume text</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>查看表的结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc employee;  desc tabname;</span><br></pre></td></tr></table></figure>
+
+<p>2.2查看当前数据库中有哪些表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">show tables;  查看数据库表建表的语句： show create table tabname;</span><br><span class="line">alter table table_name add column_name datatype [default expr] [,column datatype]...;  对表的语句进行了追加</span><br><span class="line">alter table table modify column_name datatype[default expr][,column datatype]..;</span><br><span class="line">对表的语句进行了修改</span><br><span class="line">alter table table drop column; 删除表</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改表的名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rename table 表名 to 表名</span><br></pre></td></tr></table></figure>
+
+<p>修改列的名称：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table table_name change old_column new_column typefiled;</span><br></pre></td></tr></table></figure>
+
+<h4 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h4><ol>
+<li><p>数据库表记录crud语句</p>
+<p>insert语句  增加数据</p>
+<p>update语句  更新数据</p>
+<p>delete语句  删除数据</p>
+<p>select语句 查找数据</p>
+<p>insert语句</p>
+</li>
+<li><p>使用insert语句向表中插入数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">insert into table_name[(column [,column...])] values (value[,value...]);</span><br></pre></td></tr></table></figure>
+
+<p>a .插入的数据应与字段的数据类型相同</p>
+<p>b.数据的大小应在列的规定范围内，例如不能将一个长度为80的字符串加入到长度为40的列中</p>
+<p>c.在values中列出的数据位置必须与被加入的列的排列位置相对应</p>
+<p>d.字符个日期数据应包含在单引号中</p>
+<p>e.插入空值 不指定或insert into table value（null）</p>
+<p>f.如果要插入所有的字段可以省写列列表，直接按表中字段顺序写值列表</p>
+</li>
+</ol>
+<p>• mysql有六处使用了字符集，分别为：client 、connection、database、results、server 、system。</p>
+<p> • client是客户端使用的字符集。</p>
+<p> • connection是连接数据库的字符集设置类型，如果程序没有指明连接数据库使用的字符集类型就按照服务器端默认的字符集设置。</p>
+<p> • database是数据库服务器中某个库使用的字符集设定，如果建库时没有指明，将使用服务器安装时指定的字符集设置。</p>
+<p> • results是数据库给客户端返回时使用的字符集设定，如果没有指明，使用服务器默认的字符集。</p>
+<p> • server是服务器安装时指定的默认字符集设定。 show variables like’character%’; set names gbk;临时修改当前CMD窗口和mysql的通信编码字符集</p>
+<p> • system是数据库系统使用的字符集设定。（utf-8不可修改） 请到mysql安装目录下面找到 my.ini文件 修改default-character-set=utf8 为 default-character-set=gbk 有两个地方都要改 修改文件前，先停止mysql服务 ，等修改后再重新启动 使用dos命令 ：net stop mysql 来停止服务 net start mysql 来启动</p>
+<p>如果不使用where子句，将删除表中所有数据。</p>
+<p> • update table_name set 字段名=’’; • Delete语句不能删除某一列的值（可使用update） </p>
+<p>• drop table table_name; • 使用delete语句仅删除记录，不删除表本身。如要删除表，使用drop table语句。 外键约束 </p>
+<p>• 同insert和update一样，从一个表中删除记录将引起其它表的参照完整性问题，在修改数据库数据时，头脑中应该始终不要忘记这个潜在的问题。</p>
+<p> • 删除表中数据也可使用TRUNCATE TABLE 语句，它和delete有所不同，参看mysql文档。</p>
+</article><!-- lincense--><div class="license-wrapper"><p> <span>Author:  </span><a href="http://senye.ink">zhangsen</a></p><p> <span>Link:  </span><a href="http://senye.ink/2021/07/27/day27/">http://senye.ink/2021/07/27/day27/</a></p><p> <span>Copyright:  </span><span>All articles in this blog are licensed under <a rel="license noopener" target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/3.0">CC BY-NC-SA 3.0</a> unless stating additionally.</span></p></div><div class="post-paginator"><a class="nextSlogan" href="/2021/07/26/day25/" title="day25"><span>NextPost ></span><br><span class="nextTitle">day25</span></a><div class="clear"></div></div><div id="comment"></div></section></article><footer id="cxo-footer-outer"><div id="cxo-footer-inner"><p class="footer-container"><span>Site by </span><a target="_blank" rel="noopener" href="http://hexo.io"><span>Hexo</span></a><span> | theme </span><a target="_blank" rel="noopener" href="https://github.com/Longlongyu/hexo-theme-Cxo"><span>Cxo</span></a></p><i class="fa fa-user"> </i><span id="busuanzi_value_site_uv"></span><span> | </span><i class="fa fa-eye"> </i><span id="busuanzi_value_site_pv"></span></div></footer><!-- catelog--><div class="toc-wrapper" style="top: 70vh;"><div class="toc-catalog"><i class="fa fa-list"> </i><span>CATALOG</span></div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E4%BE%8B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="toc-number">1.</span> <span class="toc-text">单例设计模式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number"></span> <span class="toc-text">数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5"><span class="toc-number">0.1.</span> <span class="toc-text">增删改查</span></a></li></ol></li></ol></div><!-- top--><i class="fa fa-arrow-up close" id="go-up" aria-hidden="true"></i></body></html>
